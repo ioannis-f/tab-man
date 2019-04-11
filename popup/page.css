@@ -1,0 +1,43 @@
+html,
+body {
+  width: 800px;
+  background-color: #cca94098;
+  /* #ffc000; */
+  margin: 0px !important;
+  /* 
+  margin-right: 6px;
+  border: 3px solid rgba(0, 0, 0, 0.3) !important; 
+  border-radius: 5px; */
+}
+
+.boxLeft {
+  padding-left: 5px;
+  padding-top: 1px;
+  /*padding-right: 6px;*/
+}
+
+.boxRight {
+  float: right;
+  padding-right: 5px;
+}
+
+.nameInput {
+  width: 350px;
+}
+
+.messages {
+  height: 22px;
+  margin-top: -1px;
+  resize: none;
+  white-space: pre;
+  width: 100%;
+}
+
+
+.pasteArea {
+  height: 100px;
+  margin-top: -1px;
+  resize: none;
+  white-space: pre;
+  width: 100%;
+}
