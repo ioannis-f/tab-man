@@ -92,10 +92,13 @@ function createview_main() {
       }
     }
     //log("Finished creating view");
+    //output = '<div ondragover="allowDrop" ondrop="drop(event)" > ' + output +'</div>' ;
     listText.innerHTML = output;
     setEventListeners();
   }
-  
+  function allowDrop(ev){ ev.preventDefault(); alert("tes");}
+  function drop(ev){ ev.target.append(document.getElementById()) }
+
   function listToUrllist(id, mode, titleChars){
     // let list = listToUrllist('id5', 'text', 80); 
     //   titleChars: (if 0 then keep full title)

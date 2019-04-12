@@ -3,32 +3,32 @@
   "name": "Tab-man",
   "version": "0.8.0",
   "description": "Tab manager ",
-//  "homepage_url": "",
+  // "homepage_url": "",
   "permissions": [
     "activeTab",
-//    "clipboardRead",
-//    "clipboardWrite",
-//    "clipboard-read",
-//    "clipboard-write",
+    //  "clipboardRead",
+    //  "clipboardWrite",
+    //  "clipboard-read",
+    //  "clipboard-write",
     "contextMenus",
     "notifications",
     "tabs",
     "storage"
   ],
   "browser_action": {
-    "default_icon": "icons/tab-man5.png",
+    "default_icon": "icons/tabman96.png",
     "browser_style": true,
     "default_title": "Tab-man",
     "default_popup": "popup/popup.html"
   },
-    "background": {
+  "background": {
     "scripts": [
       "background.js"
     ]
   },
 
   "icons": {
-//    "48": "icons/icon.svg",
-    "96": "icons/tab-man5.png"
+    "48": "icons/tabman48.png",
+    "96": "icons/tabman96.png"
   }
 }

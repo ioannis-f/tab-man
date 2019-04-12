@@ -11,8 +11,8 @@ var winlist;
 
 browser.tabs.onCreated.addListener(tabsSync);
 browser.tabs.onRemoved.addListener(tabsSync);
-//browser.windows.onCreated.addListener(tabsSync);
-//browser.windows.onRemoved.addListener(tabsSync);
+browser.windows.onCreated.addListener(tabsSync);
+browser.windows.onRemoved.addListener(tabsSync);
 
 
 
