@@ -90,8 +90,8 @@ for (let key in winlist['viewid']) {     // winlist
 */
     if (winlist['viewid'].indexOf('id' + id) == -1){
       log('# Adding viewid item: ' + ('id' + id) );
-      winlist['viewid'] = [('id' + id), ...winlist['viewid']];  // Add to the beggining of view array
-      //winlist['viewid'].push('id' + id) ;       // Add to the end of view array
+      //winlist['viewid'] = [('id' + id), ...winlist['viewid']];  // Add to the beggining of view array
+      winlist['viewid'].push('id' + id) ;       // Add to the end of view array
       log('### Viewid: ' + winlist['viewid']); 
     }
 

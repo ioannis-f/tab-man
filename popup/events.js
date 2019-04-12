@@ -6,9 +6,9 @@ function setEventListeners() {
     window.onclick = onclick_callback ;
     function onclick_callback(event) {
 
-      tmp_ar = event.target.id.split('_');
-      id = tmp_ar[0];
-      cmd = tmp_ar[1];
+      let tmp_ar = event.target.id.split('_');
+      let id = tmp_ar[0];
+      let cmd = tmp_ar[1];
       log('click cmd:' + cmd + '  id:' + id);
   
       switch (cmd) {
@@ -176,7 +176,10 @@ function setEventListeners() {
 
 
         case 'bulkmoveup':
-        for (let id in winlist){
+        wlen = winlist.length;
+        for(let id = wlen; id >= 0; id-- ){
+        //for (let id in winlist){
+          log(id + ' ' + winlist[id]);
           if(winlist[id].visible && winlist[id].checked){
             moveItemUp (id);
             }
@@ -186,7 +189,9 @@ function setEventListeners() {
         break;
 
         case 'bulkmovedown':
-        for (let id in winlist){
+        wlen = winlist.length;
+        for(let id = wlen; id >= 0; id-- ){
+        //for (let id in winlist){
           if(winlist[id].visible && winlist[id].checked){
             moveItemDown (id);
             }
@@ -196,7 +201,7 @@ function setEventListeners() {
         break;
 
 function moveItemUp (id){
-  pos1 = findItemViewid (id);
+  pos1 = findInViewid (id);
   if (pos1 == 0) { return }
   pos2 = parseInt(pos1, 10) - 1 ;
   temp = winlist['viewid'][pos2]; 
@@ -204,18 +209,23 @@ function moveItemUp (id){
   winlist['viewid'][pos1] = temp;
 }
 function moveItemDown (id){
-  pos1 = findItemViewid (id);
+  pos1 = findInViewid (id);
   if (pos1 == (winlist['viewid'].length-1) ) { return }
   pos2 = parseInt(pos1, 10) + 1 ;
   temp = winlist['viewid'][pos2]; 
   winlist['viewid'][pos2] = winlist['viewid'][pos1];
   winlist['viewid'][pos1] = temp;
 }
-function findItemViewid (id){
+function findInViewid (id){
   for (let item in winlist['viewid']) {
     if (winlist['viewid'][item] == id){return item;}
   }
 }
+// function findInWinlist (id){
+//   for (let item in winlist) {
+//     if (winlist[item] == id){ return item; }
+//   }
+// }
 
         // Testing buttons
         case 'dedup':
