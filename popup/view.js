@@ -40,10 +40,9 @@ function createview_main() {
         log('### Printing 01: ii ' + ii + ' ' + tm.list[ii].id);
         
         let id = tm.list[ii].id;
-        log('### CHECKPOINT: ');
         let urls = joinUrls(ii, 'html', 66);
         let tabsqty = tm.list[ii].urls.length ;
-        log('### Printing 02: id: ' + id + '  urls: ' )
+        //log('### Printing 02: id: ' + id + '  urls: ' )
         // add window id number
         win = windowPHolder.split('IDX').join(id);
         

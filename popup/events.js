@@ -9,7 +9,7 @@ function setEventListeners() {
       let tmp_ar = event.target.id.split('_');
       let id = tmp_ar[0];
       let cmd = tmp_ar[1];
-      let ii = b.findIdInList(id);
+      let ii = b.findPosById(id);
       log('click cmd:' + cmd + '  id:' + id);
   
       switch (cmd) {
@@ -46,38 +46,26 @@ function setEventListeners() {
 
         function bulkSelect(){
           for (let ii in tm.list){
-            if(tm.list[ii].visible){
               tm.list[ii].checked = true;
-            } 
           }
         }
         function bulkUnSelect(){
           for (let ii in tm.list){
-            if(tm.list[ii].visible){
               tm.list[ii].checked = false;
-            } 
           }
         }       
 
         // General menu
         case 'remove':
-        if (1 == 1){       // Delete item
-            msg('Deleted');
-            delete tm.list[ii];
-        }
-        else {             // Hide item
-            tm.list[ii].visible = false;
-            tm.list[ii].checked = false;
-            msg('Changed to hidden');
-        }
+        msg('Deleted');
+        delete tm.list[ii];
         b.saveToStorage();  // Save to storage
         createview();
         break;
   
         case 'bulkremove':
         for (let ii in tm.list){
-          if(tm.list[ii].visible && tm.list[ii].checked){
-            tm.list[ii].visible = false;
+          if(tm.list[ii].checked){
             tm.list[ii].checked = false;
             msg('Changed to hidden');
             }
@@ -96,9 +84,9 @@ function setEventListeners() {
         case 'bulkclipcopy':
         let output ="";
         for (let ii in tm.list){
-          if(tm.list[ii].visible && tm.list[ii].checked){
+          if(tm.list[ii].checked){
   
-            log('ID: ' +id +' | ' + tm.list[ii].visible +' | ' +tm.list[ii].checked);
+            log('ID: ' +id +' | ' +tm.list[ii].checked);
             output += tm.list[ii].name +'\n';
             output += joinUrls(ii, 'text', 0);
             output += '\n';
@@ -177,51 +165,51 @@ function setEventListeners() {
 
 
         case 'bulkmoveup':
-        wlen = tm.list.length;
-        for(let id = wlen; id >= 0; id-- ){
-        //for (let ii in tm.list){
-          log(id + ' ' + tm.list[ii]);
-          if(tm.list[ii].visible && tm.list[ii].checked){
-            moveItemUp (id);
+        wlen = (tm.list.length - 1);
+        for (let i in tm.list){
+          //for(let i = wlen; i >= 0; i-- ){
+            log('ii: ' + i + ' ' + tm.list[i]);
+            if(tm.list[i].checked){
+              moveItemUp (i);
             }
-        }
-        b.saveToStorage();  // Save to storage
-        createview();
-        break;
-
+          }
+          b.saveToStorage();  // Save to storage
+          createview();
+          break;
+          
         case 'bulkmovedown':
-        wlen = tm.list.length;
-        for(let id = wlen; id >= 0; id-- ){
-        //for (let ii in tm.list){
-          if(tm.list[ii].visible && tm.list[ii].checked){
-            moveItemDown (id);
+        log(tm);
+        wlen = (tm.list.length - 1);
+        for(let i = wlen; i >= 0; i-- ){
+          log("i: " +  i);
+          //for (let i in tm.list){
+          if(tm.list[i].checked){
+            moveItemDown (i);
             }
         }
         b.saveToStorage();  // Save to storage
         createview();
         break;
 
-function moveItemUp (id){
-  pos1 = findInViewid (id);
-  if (pos1 == 0) { return }
-  pos2 = parseInt(pos1, 10) - 1 ;
-  temp = tm.list['viewid'][pos2]; 
-  tm.list['viewid'][pos2] = tm.list['viewid'][pos1];
-  tm.list['viewid'][pos1] = temp;
+function moveItemUp(i){  //  0  << ... ii ... end
+  if (i == 0) { return }
+  let i2 = parseInt(i, 10) - 1 ;
+  let temp = tm.list[i];
+  tm.list[i] = tm.list[i2];
+  tm.list[i2] = temp;
 }
-function moveItemDown (id){
-  pos1 = findInViewid (id);
-  if (pos1 == (tm.list['viewid'].length-1) ) { return }
-  pos2 = parseInt(pos1, 10) + 1 ;
-  temp = tm.list['viewid'][pos2]; 
-  tm.list['viewid'][pos2] = tm.list['viewid'][pos1];
-  tm.list['viewid'][pos1] = temp;
+function moveItemDown(i){
+  if (i == (tm.list.length-1) ) { return }
+  let i2 = parseInt(i, 10) + 1 ;
+  let temp = tm.list[i];
+  tm.list[i] = tm.list[i2];
+  tm.list[i2] = temp;
 }
-function findInViewid (id){
-  for (let item in tm.list['viewid']) {
-    if (tm.list['viewid'][item] == id){return item;}
-  }
-}
+// function findPosById (id){
+//   for (let item in tm.list['viewid']) {
+//     if (tm.list['viewid'][item] == id){return item;}
+//   }
+// }
 // function findInWinlist (id){
 //   for (let item in tm.list) {
 //     if (tm.list[item] == id){ return item; }
@@ -242,10 +230,6 @@ function findInViewid (id){
         // Run unittests
         //unittests();
         break;
-
- 
-              
-
 
 
         case 'sort':
@@ -295,6 +279,7 @@ function findInViewid (id){
         }
         id = tmp_ar[0];
         cmd = tmp_ar[1];
+        let ii = b.findPosById(id);
         log('keypress (enter):  id:' + id + ' cmd:' + cmd );
   
         switch (cmd) {

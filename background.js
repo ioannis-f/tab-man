@@ -85,7 +85,7 @@ function tabsSync() {
       log(tm);
       // ...otherwise, initialize storage
       } else {
-git status        let tmp = { 'list':[] , 'lastchange':new Date() , '_addarea':'' } ;
+        let tmp = { 'list':[] , 'lastchange':new Date() , '_addarea':'' } ;
         browser.storage.local.set({ 'tabman': tmp }, function(){
           tm = tmp;
           log('# load: storage initialized');
@@ -115,16 +115,16 @@ function tabsSyncLoop(tabs) {
     tm.list[i].open = false ;
   }
   for (let tab of tabs) {
-    log('# Tab: ' + String(tab.windowId) + ': ' +tab.url + ' ' +tab.title);
+    //log('# Tab: ' + String(tab.windowId) + ': ' +tab.url + ' ' +tab.title);
     
     let id = String(tab.windowId);
     let url = tab.url;
     
     let list = {};
-    let ii = findIdInList(id);
+    let ii = findPosById(id);
 
-    log('ii: ' +ii +'  ' +'id: ' + id );
-    log(tm);
+    //log('ii: ' +ii +'  ' +'id: ' + id );
+    //log(tm);
     // if window not exists add it
     if ( ii == '' ) {
       ii = 0 ;
@@ -157,7 +157,7 @@ function test_AddDuplicateWindow(id){
 
 
 // ### 
-function findIdInList(id){
+function findPosById(id){
   // let ii = findIdInList('100');
   // if( ii != '' ){}
   for (let i in tm.list){
@@ -200,7 +200,7 @@ function addNewWindow(id, name, createDay){
   //  tm.list[wtm.list.length] = addNewWindow(id , new , new Date());
   //}
 
-  if(findIdInList(id)){
+  if(findPosById(id)){
     return '';
   }
   return {
