@@ -105,8 +105,10 @@ function tabsSync_query() {
   // CHROME
   browser.tabs.query( {}, function (tabs, error) {
     tabsSyncLoop(tabs);
-  }
-  );
+    //cleanupDuplicateTabs();
+    saveToStorage();
+
+  });
 }
 
 function tabsSyncLoop(tabs) {
@@ -168,7 +170,6 @@ function findPosById(id){
     return '';
 }
 
-
 function saveToStorage(){
   browser.storage.local.set({'tabman': tm}, function() {
     if (browser.runtime.lastError) {
@@ -188,7 +189,7 @@ async function clearStorage(){
   if (browser.runtime.lastError) {
     log(browser.runtime.lastError);
   } else {
-//    b.tabsSync();
+//  b.tabsSync();
     tm = b.tm;
 //  createview();
     msg('Cleared');
@@ -217,6 +218,51 @@ function addNewWindow(id, name, createDay){
 }
 
 
+function cleanupDuplicateTabs(){
+  log("### Cleanup Duplicates ##################");
+
+  for( let ii in tm.list ){
+    id1 = tm.list[ii].id;
+    //log('Checking FirstDuplicateTab id: ' + id1 +' ');
+    let id2 = findFirstDuplicateTab(id1);
+    if (id2 ){
+      log('\n Found duplicates: ' + id1 + ' ' + tm.list[id1].open + ' ' +id2 +' ' + tm.list[id2].open);
+      if( tm.list[id1].open ){
+        tm.list[id1].name = tm.list[id2].name;
+        tm.list[id1].created_date = tm.list[id2].created_date;
+        log('Removing: ' + id2);
+        delete tm.list[id2];
+      }
+      else if( tm.list[id2].open ){
+        tm.list[id2].name = tm.list[id1].name;
+        tm.list[id2].created_date = tm.list[id1].created_date;
+        log('Removing: ' + id1);
+        delete tm.list[id1];
+      }
+    }
+  }
+  return  new Promise(function(resolve, reject) {
+    resolve("finished");
+  });
+}
+function findFirstDuplicateTab(id1){
+  if(typeof tm.list[id1].urls == 'undefined'){ 
+    return; 
+  }
+  const list11_str = JSON.stringify(tm.list[id1].urls);
+
+  for( let i in tm.list ){
+    id2 = tm.list[i].id;
+    const list2_str = JSON.stringify(tm.list[id2].urls);
+    if ( (id1 != id2) && (list11_str == list2_str)){   // 
+      log('Found: ' + id1 + ' ' + list1_str + ' ' +id2 +' ' + list2_str);
+      return id2;
+    }
+   }
+   return false;
+}
+
+
 function timestamp() {
   let x = new Date();
   return x.toISOString().split('-').join('')
@@ -233,3 +279,4 @@ function logerror(str){
 function onError(error) {
     console.log(`Error: ${error}`);
 }
+
