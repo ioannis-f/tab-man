@@ -1,5 +1,5 @@
 console.log("events.js started");
-
+var b = browser.extension.getBackgroundPage();
 
 function setEventListeners() {
     // onclick event listener
@@ -9,15 +9,16 @@ function setEventListeners() {
       let tmp_ar = event.target.id.split('_');
       let id = tmp_ar[0];
       let cmd = tmp_ar[1];
+      let ii = b.findIdInList(id);
       log('click cmd:' + cmd + '  id:' + id);
   
       switch (cmd) {
       
         // Menu
         case 'check':
-        winlist[id].checked = 
+        tm.list[ii].checked = 
           document.getElementById(id +'_check').checked;
-        saveToStorage();  // Save to storage
+        b.saveToStorage();  // Save to storage
         break;
         
         case 'checkalltoggle':
@@ -27,33 +28,33 @@ function setEventListeners() {
         else{
           bulkUnSelect();
         }
-        saveToStorage();  // Save to storage
+        b.saveToStorage();  // Save to storage
         createview();
         break;
   
         case 'bulkselect':
         bulkSelect();
-        saveToStorage();  // Save to storage
+        b.saveToStorage();  // Save to storage
         createview();
         break;
 
         case 'bulkunselect':
         bulkUnSelect();
-        saveToStorage();  // Save to storage
+        b.saveToStorage();  // Save to storage
         createview();
         break;
 
         function bulkSelect(){
-          for (let id in winlist){
-            if(winlist[id].visible){
-              winlist[id].checked = true;
+          for (let ii in tm.list){
+            if(tm.list[ii].visible){
+              tm.list[ii].checked = true;
             } 
           }
         }
         function bulkUnSelect(){
-          for (let id in winlist){
-            if(winlist[id].visible){
-              winlist[id].checked = false;
+          for (let ii in tm.list){
+            if(tm.list[ii].visible){
+              tm.list[ii].checked = false;
             } 
           }
         }       
@@ -62,44 +63,44 @@ function setEventListeners() {
         case 'remove':
         if (1 == 1){       // Delete item
             msg('Deleted');
-            delete winlist[id];
+            delete tm.list[ii];
         }
         else {             // Hide item
-            winlist[id].visible = false;
-            winlist[id].checked = false;
+            tm.list[ii].visible = false;
+            tm.list[ii].checked = false;
             msg('Changed to hidden');
         }
-        saveToStorage();  // Save to storage
+        b.saveToStorage();  // Save to storage
         createview();
         break;
   
         case 'bulkremove':
-        for (let id in winlist){
-          if(winlist[id].visible && winlist[id].checked){
-            winlist[id].visible = false;
-            winlist[id].checked = false;
+        for (let ii in tm.list){
+          if(tm.list[ii].visible && tm.list[ii].checked){
+            tm.list[ii].visible = false;
+            tm.list[ii].checked = false;
             msg('Changed to hidden');
             }
         }
         msg('Hidden');
-        saveToStorage();  // Save to storage
+        b.saveToStorage();  // Save to storage
         createview();
         break;
 
 
         case 'clipcopy':
-        saveToClipboard(listToUrllist(id, 'text', 0));
+        saveToClipboard(joinUrls(ii, 'text', 0));
         msg('Copied to clipboard');
         break;
   
         case 'bulkclipcopy':
         let output ="";
-        for (let id in winlist){
-          if(winlist[id].visible && winlist[id].checked){
+        for (let ii in tm.list){
+          if(tm.list[ii].visible && tm.list[ii].checked){
   
-            log('ID: ' +id +' | ' + winlist[id].visible +' | ' +winlist[id].checked);
-            output += winlist[id].name +'\n';
-            output += listToUrllist(id, 'text', 0);
+            log('ID: ' +id +' | ' + tm.list[ii].visible +' | ' +tm.list[ii].checked);
+            output += tm.list[ii].name +'\n';
+            output += joinUrls(ii, 'text', 0);
             output += '\n';
           }
         }
@@ -124,7 +125,7 @@ function setEventListeners() {
           }
           else {
             x.style.display = "block";
-            document.getElementById('_pastearea_txt').innerText = winlist['pastearea'];
+            document.getElementById('_pastearea_txt').innerText = tm['_addarea'];
             //y.innerHTML = 'Done ▲';
           } 
         break;
@@ -149,7 +150,7 @@ function setEventListeners() {
   
         case 'Open':
         // create array with urls to open
-        let urls = listToUrllist(id, 'url', 0);
+        let urls = joinUrls(ii, 'url', 0);
         log(urls)
         for (let i in urls){ 
             if(urls[i] == "about:newtab" || urls[i] == "chrome://newtab/"){
@@ -164,39 +165,39 @@ function setEventListeners() {
         
         case 'moveup':
         moveItemUp (id);
-        saveToStorage();  // Save to storage
+        b.saveToStorage();  // Save to storage
         createview();
         break;
 
         case 'movedown':
         moveItemDown (id);
-        saveToStorage();  // Save to storage
+        b.saveToStorage();  // Save to storage
         createview();
         break;
 
 
         case 'bulkmoveup':
-        wlen = winlist.length;
+        wlen = tm.list.length;
         for(let id = wlen; id >= 0; id-- ){
-        //for (let id in winlist){
-          log(id + ' ' + winlist[id]);
-          if(winlist[id].visible && winlist[id].checked){
+        //for (let ii in tm.list){
+          log(id + ' ' + tm.list[ii]);
+          if(tm.list[ii].visible && tm.list[ii].checked){
             moveItemUp (id);
             }
         }
-        saveToStorage();  // Save to storage
+        b.saveToStorage();  // Save to storage
         createview();
         break;
 
         case 'bulkmovedown':
-        wlen = winlist.length;
+        wlen = tm.list.length;
         for(let id = wlen; id >= 0; id-- ){
-        //for (let id in winlist){
-          if(winlist[id].visible && winlist[id].checked){
+        //for (let ii in tm.list){
+          if(tm.list[ii].visible && tm.list[ii].checked){
             moveItemDown (id);
             }
         }
-        saveToStorage();  // Save to storage
+        b.saveToStorage();  // Save to storage
         createview();
         break;
 
@@ -204,38 +205,48 @@ function moveItemUp (id){
   pos1 = findInViewid (id);
   if (pos1 == 0) { return }
   pos2 = parseInt(pos1, 10) - 1 ;
-  temp = winlist['viewid'][pos2]; 
-  winlist['viewid'][pos2] = winlist['viewid'][pos1];
-  winlist['viewid'][pos1] = temp;
+  temp = tm.list['viewid'][pos2]; 
+  tm.list['viewid'][pos2] = tm.list['viewid'][pos1];
+  tm.list['viewid'][pos1] = temp;
 }
 function moveItemDown (id){
   pos1 = findInViewid (id);
-  if (pos1 == (winlist['viewid'].length-1) ) { return }
+  if (pos1 == (tm.list['viewid'].length-1) ) { return }
   pos2 = parseInt(pos1, 10) + 1 ;
-  temp = winlist['viewid'][pos2]; 
-  winlist['viewid'][pos2] = winlist['viewid'][pos1];
-  winlist['viewid'][pos1] = temp;
+  temp = tm.list['viewid'][pos2]; 
+  tm.list['viewid'][pos2] = tm.list['viewid'][pos1];
+  tm.list['viewid'][pos1] = temp;
 }
 function findInViewid (id){
-  for (let item in winlist['viewid']) {
-    if (winlist['viewid'][item] == id){return item;}
+  for (let item in tm.list['viewid']) {
+    if (tm.list['viewid'][item] == id){return item;}
   }
 }
 // function findInWinlist (id){
-//   for (let item in winlist) {
-//     if (winlist[item] == id){ return item; }
+//   for (let item in tm.list) {
+//     if (tm.list[item] == id){ return item; }
 //   }
 // }
 
         // Testing buttons
         case 'dedup':
-        b.tabsSync().then( function(ret){createview()} );
-        b.cleanupDuplicateTabs().then( function(ret){createview()} );
+        b.tabsSync().then( function(ret){ 
+/*          b.cleanupDuplicateTabs().then( function(ret){
+              msg('test');
+              createview();
+              });
+*/          });
+        break;
+        
+        case 'test':
+        // Run unittests
+        //unittests();
         break;
 
-        case 'test':
-        winlist['viewid'] = [];
-        break;
+ 
+              
+
+
 
         case 'sort':
           winlistSort();
@@ -247,7 +258,7 @@ function findInViewid (id){
             log(browser.runtime.lastError);
           } else {
             b.tabsSync();
-            winlist = b.winlist;
+            tm = b.tm;
             createview();
             msg('Cleared');
           }
@@ -291,16 +302,16 @@ function findInViewid (id){
           case "pastearea" : 
             let str = event.target.innerText;
             //log(str);
-            winlist['pastearea'] = str;
-            saveToStorage();  // Save to storage
+            tm['_addarea'] = str;
+            b.saveToStorage();  // Save to storage
             //let res = grabUrlsFromString(str);
             //log(res);
             break;
   
           default:
-            winlist[id].name = event.target.value;
+            tm.list[ii].name = event.target.value;
             msg('Window title changed');
-            saveToStorage();  // Save to storage
+            b.saveToStorage();  // Save to storage
           break;
         }
   
@@ -317,22 +328,7 @@ function ondrag_callback(event){
 document.addEventListener("dragover", function(event) {
     event.preventDefault();
 });
-        /*
-        // ### Drag n drop tryouts
-        document.addEventListener("drop", function(event) {
-          event.preventDefault();
-          // if ( event.target.className == "droptarget" ) {
-          //   document.getElementById("demo").style.color = "";
-          //   event.target.style.border = "";
-          //   var data = event.dataTransfer.getData("Text");
-          //   event.target.appendChild(document.getElementById(data));
-          // }
-        });
-  */
-        //log("Store name: " + winlist.id3.name);
-        //winlist = storage_load("store");
-        //log("reload Store name: " );
-        //log( winlist);
+
     }
 }
   

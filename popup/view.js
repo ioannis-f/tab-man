@@ -1,22 +1,16 @@
 console.log("view.js started");
 
 
-// ### VIEW ####################################
 function createview() {
-    chrome.windows.getCurrent(getCurrentWindow_callback);
-}
-function getCurrentWindow_callback(window){
-    currentwindow_id = 'id' + window.id ;
-    log('getCurrent_callback');
-    createview_main();
+    chrome.windows.getCurrent(function(){
+      currentwindow_id = window.id ;
+      log('getCurrent_callback');
+      createview_main();
+    });
 }
 function createview_main() {
     log("Creating view");
   
-    winlist = b.winlist;
-    log('winlist fetched: ');
-    log(winlist);
-    
     // Single window line placeholder
     var windowPHolder = ' \
       <div class="browser-style boxLeft" draggable="true" > \
@@ -37,33 +31,29 @@ function createview_main() {
   
     let win = '';
     let output = '';
-    // Print using viewid
-    log('# view.js: Viewid  ' + winlist['viewid']);
-    for (let key in winlist['viewid']) {
-      item = winlist['viewid'][key];
-      // print without using viewid
-      //for (let item in winlist) {  
-      if (typeof winlist[item] == 'undefined' || typeof winlist[item].list == 'undefined'){
+    let ii ;
+    for (ii in tm.list) {  
+      if (typeof tm.list[ii] == 'undefined' || typeof tm.list[ii].urls == 'undefined'){
         continue;
       }      
       try {
-
-        //log( "# Printing: " + item + ' ' + typeof winlist[item] );
-        //let id = 'id' + winlist[item].windowid;  // CHECK IF THIS IS OK
-        let id = item ;
-        let list = listToUrllist(id, 'html', 66);
-        let tabsqty = winlist[id].list.length ;
-
+        log('### Printing 01: ii ' + ii + ' ' + tm.list[ii].id);
+        
+        let id = tm.list[ii].id;
+        log('### CHECKPOINT: ');
+        let urls = joinUrls(ii, 'html', 66);
+        let tabsqty = tm.list[ii].urls.length ;
+        log('### Printing 02: id: ' + id + '  urls: ' )
         // add window id number
         win = windowPHolder.split('IDX').join(id);
         
         // Add tabs quantity
         win = win.split('TABSQTY').join( tabsqty +' Tabs' );
-
+        
         // add url items
-        win = win.split('LIST').join( list );
+        win = win.split('LIST').join( urls );
         // add window name
-        win = win.split('NAME').join( winlist[id].name );
+        win = win.split('NAME').join( tm.list[ii].name );
         // highlight current window
         
         //log( 'IDs: ' +id +' ' + currentwindow_id)
@@ -71,24 +61,24 @@ function createview_main() {
           win = win.split('style="color:red"').join( '' );  
         }
         // If window is open: Hide "x" button
-        if( (winlist[id].open) ){
+        if( (tm.list[ii].open) ){
           win = win.split('REMOVE_VISIBLE').join('hidden');  
         }
         // If window is closed: Change Show button to Open and show "x" button
-        if( !(winlist[id].open) ){
+        if( !(tm.list[ii].open) ){
           win = win.split('Show').join('Open');  
           win = win.split('REMOVE_VISIBLE').join('visible');  
         }
         // set checkbox status
-        if (winlist[id].checked){
+        if (tm.list[ii].checked){
           win = win.split('CHECKEDVALUE').join( 'checked' );
         }
         // finally add row to total
-        if(winlist[id].visible){
+        if(tm.list[ii].visible){
           output = output + win;
         }
       } catch (error) {
-        log("ERROR 01: " +item +' ' + error );
+        log("ERROR 01: " +tm.list[ii] +' ' + error );
       }
     }
     //log("Finished creating view");
@@ -96,17 +86,14 @@ function createview_main() {
     listText.innerHTML = output;
     setEventListeners();
   }
-  function allowDrop(ev){ ev.preventDefault(); alert("tes");}
-  function drop(ev){ ev.target.append(document.getElementById()) }
 
-  function listToUrllist(id, mode, titleChars){
-    // let list = listToUrllist('id5', 'text', 80); 
-    //   titleChars: (if 0 then keep full title)
-    //   mode: text , html, url
-    let list = '';
-  
-    for (let key in winlist[id].list){
-      let item = winlist[id].list[key].split(' ');
+  function joinUrls(ii, mode, titleChars){
+    //let urls = joinUrls(ii, 'html', 66);
+    //  titleChars: (if 0 then keep full title)
+    //  mode: text , html, url
+    let urls = '';
+    for (let key in tm.list[ii].urls){
+      let item = tm.list[ii].urls[key].split(' ');
       let url = item[0];
       item.shift();
       let title = item.join(' ');
@@ -116,16 +103,16 @@ function createview_main() {
         title = title.slice(0, titleChars) +' ...';
       }
       if (mode == 'html'){
-        list += '  <a href="' + url + '">' + title  + '</a><br>\n' ;
+        urls += '  <a href="' + url + '">' + title  + '</a><br>\n' ;
       }
       else if (mode == 'url') {                   // url
-        list = list + ' ' + url ;
+        urls = urls + ' ' + url ;
       }
       else {
-        list += '  ' + title +'  (' +url + ')\n' ;  // text mode
+        urls += '  ' + title +'  (' +url + ')\n' ;  // text mode
       }
     }
   
-    return list;
+    return urls;
   }
   
