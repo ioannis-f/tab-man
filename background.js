@@ -149,12 +149,48 @@ function tabsSyncLoop(tabs) {
 
 }
 
-function test_AddNewWindow(id){
-  tm.list[tm.list.length] = addNewWindow(id , id + 'new' , new Date());
-  saveToStorage();
-  log(tm);
+function cleanupDuplicateTabs(){
+  log("### Cleanup Duplicates ##################");
+  for( let ii in tm.list ){
+    id1 = tm.list[ii].id;
+    //log('Checking FirstDuplicateTab id: ' + id1 +' ');
+    let id2 = findFirstDuplicateTab(id1);
+    if (id2 ){
+      log('\n Found duplicates: ' + id1 + ' ' + tm.list[id1].open + ' ' +id2 +' ' + tm.list[id2].open);
+      if( tm.list[id1].open ){
+        tm.list[id1].name = tm.list[id2].name;
+        tm.list[id1].created_date = tm.list[id2].created_date;
+        log('Removing: ' + id2);
+        delete tm.list[id2];
+      }
+      else if( tm.list[id2].open ){
+        tm.list[id2].name = tm.list[id1].name;
+        tm.list[id2].created_date = tm.list[id1].created_date;
+        log('Removing: ' + id1);
+        delete tm.list[id1];
+      }
+    }
+  }
+  // return  new Promise(function(resolve, reject) {
+  //   resolve("finished");
+  // });
 }
-function test_AddDuplicateWindow(id){
+function findFirstDuplicateTab(id1){
+  if(typeof tm.list[id1].urls == 'undefined'){ 
+    return; 
+  }
+  const list11_str = JSON.stringify(tm.list[id1].urls);
+
+  for( let i in tm.list ){
+    id2 = tm.list[i].id;
+    const list2_str = JSON.stringify(tm.list[id2].urls);
+    if ( (id1 != id2) && (list11_str == list2_str)){   // 
+      log('Found: ' + id1 + ' ' + list1_str + ' ' +id2 +' ' + list2_str);
+
+      return id2;
+    }
+   }
+   return false;
 }
 
 
@@ -168,6 +204,27 @@ function findPosById(id){
     }
   }
     return '';
+}
+
+function addNewWindow(id, name, createDay){
+  //if(!findIdInList(id)){
+  //  tm.list[wtm.list.length] = addNewWindow(id , new , new Date());
+  //}
+
+  if(findPosById(id)){
+    return '';
+  }
+  return {
+    'name': name,
+    'id': id,
+    'urls': [],
+    'checked': false,
+    'colapse': true,
+    'open': true,
+    'visible': true,        // TBI: visible/hidden/delete/backup
+    'created_date': createDay,
+    'lastchange_date': '',  // TBI
+  };   
 }
 
 function saveToStorage(){
@@ -196,72 +253,6 @@ async function clearStorage(){
   }
 }
 
-function addNewWindow(id, name, createDay){
-  //if(!findIdInList(id)){
-  //  tm.list[wtm.list.length] = addNewWindow(id , new , new Date());
-  //}
-
-  if(findPosById(id)){
-    return '';
-  }
-  return {
-    'name': name,
-    'id': id,
-    'urls': [],
-    'checked': false,
-    'colapse': true,
-    'open': true,
-    'visible': true,        // TBI: visible/hidden/delete/backup
-    'created_date': createDay,
-    'lastchange_date': '',  // TBI
-  };   
-}
-
-
-function cleanupDuplicateTabs(){
-  log("### Cleanup Duplicates ##################");
-
-  for( let ii in tm.list ){
-    id1 = tm.list[ii].id;
-    //log('Checking FirstDuplicateTab id: ' + id1 +' ');
-    let id2 = findFirstDuplicateTab(id1);
-    if (id2 ){
-      log('\n Found duplicates: ' + id1 + ' ' + tm.list[id1].open + ' ' +id2 +' ' + tm.list[id2].open);
-      if( tm.list[id1].open ){
-        tm.list[id1].name = tm.list[id2].name;
-        tm.list[id1].created_date = tm.list[id2].created_date;
-        log('Removing: ' + id2);
-        delete tm.list[id2];
-      }
-      else if( tm.list[id2].open ){
-        tm.list[id2].name = tm.list[id1].name;
-        tm.list[id2].created_date = tm.list[id1].created_date;
-        log('Removing: ' + id1);
-        delete tm.list[id1];
-      }
-    }
-  }
-  return  new Promise(function(resolve, reject) {
-    resolve("finished");
-  });
-}
-function findFirstDuplicateTab(id1){
-  if(typeof tm.list[id1].urls == 'undefined'){ 
-    return; 
-  }
-  const list11_str = JSON.stringify(tm.list[id1].urls);
-
-  for( let i in tm.list ){
-    id2 = tm.list[i].id;
-    const list2_str = JSON.stringify(tm.list[id2].urls);
-    if ( (id1 != id2) && (list11_str == list2_str)){   // 
-      log('Found: ' + id1 + ' ' + list1_str + ' ' +id2 +' ' + list2_str);
-      return id2;
-    }
-   }
-   return false;
-}
-
 
 function timestamp() {
   let x = new Date();
@@ -279,4 +270,15 @@ function logerror(str){
 function onError(error) {
     console.log(`Error: ${error}`);
 }
+
+
+
+function test_AddNewWindow(id){
+  tm.list[tm.list.length] = addNewWindow(id , id + 'new' , new Date());
+  saveToStorage();
+  log(tm);
+}
+function test_AddDuplicateWindow(id){
+}
+
 
