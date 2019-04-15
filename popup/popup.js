@@ -1,18 +1,18 @@
-// let resetBtn = document.querySelector('.reset');
+// let resetBtn = document.querySelector(".reset");
 
-//console.error('test');
+//console.error("test");
 //alert("test");
-//log('clipboard: ');
+//log("clipboard: ");
 //saveToClipboard("Clipboard Test");
 //let x = readFromClipboard();
 
 log("popup.js: Started");
 
-var currentwindow_id;
-var messages =  document.getElementById('_messages');
+var currentWindow_id;
+var messages =  document.getElementById("_messages");
 
 
-document.addEventListener('DOMContentLoaded', createview);  // createview();
+document.addEventListener("DOMContentLoaded", createview);  // createview();
 
 // Message receive
 browser.runtime.onMessage.addListener(messageNotify);
@@ -20,7 +20,7 @@ function messageNotify(message){
   msg("message received");
 }
 
-log('Pop-up Loop ended');
+log("Pop-up Loop ended");
 
 
 
@@ -40,29 +40,29 @@ function storage_clear(id) {
 
 function timestamp() {
   let x = new Date();
-  return x.toISOString().split('-').join('')
-    .split('T').join(' ').split(':').join('')
-    //.split('.')[0] 
-    + ' ';
+  return x.toISOString().split("-").join("")
+    .split("T").join(" ").split(":").join("")
+    //.split(".")[0] 
+    + " ";
 }
 function log(str){
   console.log(str);
 }
 function logerror(str){
-  console.log('Error: ' + str);
+  console.log("Error: " + str);
 }
 function onError(error) {
   console.log(`Error: ${error}`);
 }
 function msg(str){
-  //messages.innerHTML = messages.innerHTML + '\n' + str;
+  //messages.innerHTML = messages.innerHTML + "\n" + str;
   messages.innerHTML = str;
 }
 
 
 // function winlistSort(){
 //   for (const key of Object.keys(winlist)) {
-//     console.log(key + ' ' + winlist[key]); }
+//     console.log(key + " " + winlist[key]); }
 
 // }
 

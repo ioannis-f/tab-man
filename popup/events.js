@@ -110,7 +110,7 @@ function setEventListeners() {
   
         // show or hide pastearea
         case "pasteareashow":
-          x = document.getElementById("_pastearea");
+          let x = document.getElementById("_pastearea");
           //let y = document.getElementById("_paste");
           if (x.style.display === "block") {
             x.style.display = "none";
@@ -124,7 +124,7 @@ function setEventListeners() {
         break;
   
         case "pastenow":
-        var x = document.getElementById("_pastearea");
+        let x = document.getElementById("_pastearea");
         let res =  grabUrlsFromString(x.innerText);
         x.innerText = res.join("\n");
         openNewWindow(res);

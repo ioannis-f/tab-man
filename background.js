@@ -115,7 +115,7 @@ function tabsSyncLoop(tabs) {
   // set all windows open flag to false 
   log(tm);
   for (let i3 in tm.list) {
-    if(typeof tm.list[i3] !="undefined") {tm.list[i3].open = false}
+    if(typeof tm.list[i3] !="undefined") {tm.list[i3].open = false;}
   }
   for (let tab of tabs) {
     //log("# Tab: " + String(tab.windowId) + ": " +tab.url + " " +tab.title);
