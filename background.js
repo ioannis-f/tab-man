@@ -15,7 +15,8 @@ browser.windows.onRemoved.addListener(tabsSync);
 log("Background Loop ended");
 
 // ### NEW ###############################
-let tm = {};  // { "list":[] , "lastchange":new Date() , "_addarea":"" } ;
+// tm should be be declared with var not let
+var tm = {};  // { "list":[] , "lastchange":new Date() , "_addarea":"" } ;
 tabsSync();
 
 
@@ -113,7 +114,7 @@ function tabsSync(){
         browser.storage.local.set({ "tabman": tmp }, function(){
           tm = tmp;
           log("# load: storage initialized");
-        })
+        });
       };
     tabsSync_query();
   });

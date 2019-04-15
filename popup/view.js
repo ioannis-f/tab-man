@@ -1,6 +1,5 @@
 console.log("view.js started");
 
-
 function createview() {
   browser.windows.getCurrent(function(window){
     currentWindowId = window.id ;
