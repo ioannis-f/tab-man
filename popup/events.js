@@ -229,6 +229,7 @@ function moveItemDown(i){
         case 'test':
         // Run unittests
         //unittests();
+        b.test_AddDuplicateWindow();
         break;
 
 
@@ -236,8 +237,9 @@ function moveItemDown(i){
           winlistSort();
         break;
   
+        
         case 'clean':
-        browser.storage.local.remove('store', function() {
+        browser.storage.local.remove('tabman', function() {
           if (browser.runtime.lastError) {
             log(browser.runtime.lastError);
           } else {

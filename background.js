@@ -75,7 +75,7 @@ function loadFromStorage(){
 }
 */
 
-function tabsSync() {
+function tabsSync(){
   log('\n# Syncing: Loading Data');
   browser.storage.local.get("tabman", function (data) {
     // if there are stored data, load
@@ -105,7 +105,7 @@ function tabsSync_query() {
   // CHROME
   browser.tabs.query( {}, function (tabs, error) {
     tabsSyncLoop(tabs);
-    //cleanupDuplicateTabs();
+    cleanupDuplicateTabs();
     saveToStorage();
 
   });
@@ -113,8 +113,9 @@ function tabsSync_query() {
 
 function tabsSyncLoop(tabs) {
   // set all windows open flag to false 
-  for (let i in tm.list) {
-    tm.list[i].open = false ;
+  log(tm);
+  for (let i3 in tm.list) {
+    tm.list[i3].open = false ;
   }
   for (let tab of tabs) {
     //log('# Tab: ' + String(tab.windowId) + ': ' +tab.url + ' ' +tab.title);
@@ -150,47 +151,68 @@ function tabsSyncLoop(tabs) {
 }
 
 function cleanupDuplicateTabs(){
+/*  b.cleanupDuplicateTabs().then( function(ret){
+    msg('test');
+    createview();
+    });  */
   log("### Cleanup Duplicates ##################");
-  for( let ii in tm.list ){
-    id1 = tm.list[ii].id;
-    //log('Checking FirstDuplicateTab id: ' + id1 +' ');
-    let id2 = findFirstDuplicateTab(id1);
-    if (id2 ){
-      log('\n Found duplicates: ' + id1 + ' ' + tm.list[id1].open + ' ' +id2 +' ' + tm.list[id2].open);
-      if( tm.list[id1].open ){
-        tm.list[id1].name = tm.list[id2].name;
-        tm.list[id1].created_date = tm.list[id2].created_date;
-        log('Removing: ' + id2);
-        delete tm.list[id2];
+  for( let i1 in tm.list ){
+//    id1 = tm.list[ii].id;
+    //log('Checking FirstDuplicateTab id: ' + i1 +' ');
+    let i2 = findFirstDuplicateTab(i1);
+    if (i2 ){
+      //log('\n Found duplicates: ' + id1 + ' ' + tm.list[id1].open + ' ' +id2 +' ' + tm.list[id2].open);
+      if( tm.list[i1].open ){
+        tm.list[i1].name = tm.list[i2].name;
+        tm.list[i1].created_date = tm.list[i2].created_date;
+        log('Removing id: ' + tm.list[i2].id);
+        tm.list.splice(i2, 1);
       }
-      else if( tm.list[id2].open ){
-        tm.list[id2].name = tm.list[id1].name;
-        tm.list[id2].created_date = tm.list[id1].created_date;
-        log('Removing: ' + id1);
-        delete tm.list[id1];
+      else if( tm.list[i2].open ){
+        tm.list[i2].name = tm.list[i1].name;
+        tm.list[i2].created_date = tm.list[i1].created_date;
+        log('Removing id: ' + tm.list[i1].id);
+        tm.list.splice(i1, 1);
       }
     }
   }
-  // return  new Promise(function(resolve, reject) {
-  //   resolve("finished");
-  // });
+  log(tm);
+  return  new Promise(function(resolve, reject) {
+    resolve("finished");
+  });
+
 }
-function findFirstDuplicateTab(id1){
-  if(typeof tm.list[id1].urls == 'undefined'){ 
-    return; 
-  }
-  const list11_str = JSON.stringify(tm.list[id1].urls);
-
-  for( let i in tm.list ){
-    id2 = tm.list[i].id;
-    const list2_str = JSON.stringify(tm.list[id2].urls);
-    if ( (id1 != id2) && (list11_str == list2_str)){   // 
-      log('Found: ' + id1 + ' ' + list1_str + ' ' +id2 +' ' + list2_str);
-
-      return id2;
+function findFirstDuplicateTab(i1){
+  const list1_str = JSON.stringify(tm.list[i1].urls);
+  for( let i2 in tm.list ){
+    //log('  With: ' + i2);
+    const list2_str = JSON.stringify(tm.list[i2].urls);
+    if ( (i1 != i2) && (list1_str == list2_str)){   // 
+      log(' Duplicates Found, ids:' + tm.list[i1].id + ' ' +tm.list[i2].id +'  ii:' +i1 +' ' +i2 );
+      return i2;
     }
    }
    return false;
+}
+function test_AddDuplicateWindow(){   // *** BAD: it creates duplicate with the same object
+  //use:  test_AddDuplicateWindow();
+  for(let i1 in tm.list){
+    if(typeof tm.list[i1] != 'undefined'){
+      let i2 = tm.list.length;
+      log('# creating duplicate for ii: ' + i1 +' , at: ' +i2);
+      // let temp = tm.list[i1];                // create duplicate
+      // temp.open = false;
+      // temp.id = '100';
+      // temp.name = '100';
+
+      tm.list[i2] = tm.list[i1].splice;    
+      log(tm);
+      log(temp);
+
+      saveToStorage();
+      return ;
+    }
+  }
 }
 
 
@@ -198,22 +220,30 @@ function findFirstDuplicateTab(id1){
 function findPosById(id){
   // let ii = findIdInList('100');
   // if( ii != '' ){}
+try {
   for (let i in tm.list){
     if( tm.list[i].id == id) {
       return i; 
     }
   }
+} catch (error) {}
     return '';
 }
 
+/*  STRUCTURE:
+tm = {
+    _addarea: "" , 
+​    lastchange: "Date 2019-04-14T07:55:21.888Z" ,
+    list: [ {id:'' , name:'' , urls:[] ... },
+            {}, 
+            {}
+          ]
+}
+*/ 
 function addNewWindow(id, name, createDay){
-  //if(!findIdInList(id)){
+  //if(findIdInList(id)!=''){
   //  tm.list[wtm.list.length] = addNewWindow(id , new , new Date());
   //}
-
-  if(findPosById(id)){
-    return '';
-  }
   return {
     'name': name,
     'id': id,
@@ -277,8 +307,6 @@ function test_AddNewWindow(id){
   tm.list[tm.list.length] = addNewWindow(id , id + 'new' , new Date());
   saveToStorage();
   log(tm);
-}
-function test_AddDuplicateWindow(id){
 }
 
 
