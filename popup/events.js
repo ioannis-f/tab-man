@@ -225,11 +225,11 @@ function moveItemDown(i){
         // Testing buttons
         case "dedup":
         b.tabsSync().then( function(ret){ 
-/*          b.cleanupDuplicateTabs().then( function(ret){
+          b.cleanupDuplicateTabs().then( function(ret){
               msg("test");
               createview();
               });
-*/          });
+          });
         break;
         
         case "test":
@@ -308,24 +308,6 @@ function moveItemDown(i){
           break;
         }
   
-
-
-
-// ### Drag n drop
-window.addEventListener("dragstart", ondrag_callback);
-window.addEventListener("drag", ondrag_callback);
-window.addEventListener("dragenter", ondrag_callback);
-function ondrag_callback(event){
-    msg("Drag n drop " + event);
-}
-document.addEventListener("dragover", function(event) {
-    event.preventDefault();
-});
-
-    }
-}
-  
-    
 // Open new window
 function openNewWindow(urls){
 log (urls);

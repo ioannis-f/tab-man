@@ -11,5 +11,5 @@ var b = browser.extension.getBackgroundPage();
 var winlist = b.winlist;
 var tm = b.tm;
 
-var currentWindow_id;
+var currentWindowId;
 var messages =  document.getElementById("_messages");

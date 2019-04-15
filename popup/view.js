@@ -3,7 +3,7 @@ console.log("view.js started");
 
 function createview() {
   browser.windows.getCurrent(function(window){
-    currentWindow_id = window.id ;
+    currentWindowId = window.id ;
     createview_main();
   });
 }
@@ -54,8 +54,8 @@ function createview_main() {
         win = win.split("NAME").join( tm.list[ii].name );
         // highlight current window
         
-        //log( "IDs: " +id +" " + currentWindow_id)
-        if( id != currentWindow_id){
+        //log( "IDs: " +id +" " + currentWindowId)
+        if( id != currentWindowId){
           win = win.split('style="color:red"').join( "" );  
         }
         // If window is open: Hide "x" button
