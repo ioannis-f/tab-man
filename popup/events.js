@@ -11,6 +11,7 @@ function setEventListeners() {
     window.onclick = onclick_callback ;
     function onclick_callback(event) {
 
+      let tmp;
       let tmp_ar = event.target.id.split("_");
       let id = tmp_ar[0];
       let cmd = tmp_ar[1];
@@ -110,23 +111,23 @@ function setEventListeners() {
   
         // show or hide pastearea
         case "pasteareashow":
-          let x = document.getElementById("_pastearea");
+          tmp = document.getElementById("_pastearea");
           //let y = document.getElementById("_paste");
-          if (x.style.display === "block") {
-            x.style.display = "none";
+          if (tmp.style.display === "block") {
+            tmp.style.display = "none";
             //y.innerHTML = "Paste ▼";
           }
           else {
-            x.style.display = "block";
+            tmp.style.display = "block";
             document.getElementById("_pastearea_txt").innerText = tm["_addarea"];
             //y.innerHTML = "Done ▲";
           } 
         break;
   
         case "pastenow":
-        let x = document.getElementById("_pastearea");
-        let res =  grabUrlsFromString(x.innerText);
-        x.innerText = res.join("\n");
+        tmp = document.getElementById("_pastearea");
+        let res =  grabUrlsFromString(tmp.innerText);
+        tmp.innerText = res.join("\n");
         openNewWindow(res);
         break;
   
@@ -137,14 +138,14 @@ function setEventListeners() {
         break;
   
         case "Show":
-        x = parseInt(id.replace("id","") );
-        browser.windows.update(x, { focused:true });
+        tmp = parseInt(id.replace("id","") );
+        browser.windows.update(tmp, { focused:true });
         break;
   
         case "Open":
         // create array with urls to open
         let urls = joinUrls(ii, "url", 0);
-        log(urls)
+        log(urls);
         for (let i in urls){ 
             if(urls[i] == "about:newtab" || urls[i] == "chrome://newtab/"){
                 delete urls[i];
@@ -335,14 +336,14 @@ function openNewTabs(urls){
     var creating = browser.tabs.create({ "url": urls });
 }
 function toggleCollapse(idspec) {
-    var x = document.getElementById(idspec + "_Text");
+    let tmp = document.getElementById(idspec + "_Text");
     var btn = document.getElementById(idspec + "_collapse");
     
-    if (x.style.display === "none") {
-        x.style.display = "block";
+    if (tmp.style.display === "none") {
+        tmp.style.display = "block";
         btn.innerHTML = "▲";
     } else {
-        x.style.display = "none";
+        tmp.style.display = "none";
         btn.innerHTML = "▼";
     }
 }

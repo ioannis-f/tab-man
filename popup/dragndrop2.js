@@ -62,7 +62,7 @@ function handleDragEnd(e) {
 
 function addDnDHandlers(elem) {
   elem.addEventListener("dragstart", handleDragStart, false);
-  elem.addEventListener("dragenter", handleDragEnter, false)
+  elem.addEventListener("dragenter", handleDragEnter, false);
   elem.addEventListener("dragover", handleDragOver, false);
   elem.addEventListener("dragleave", handleDragLeave, false);
   elem.addEventListener("drop", handleDrop, false);
