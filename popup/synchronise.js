@@ -1,7 +1,7 @@
 console.log("synchronise.js started");
 
 // Keep chrome compatible creating browser object
-if (typeof browser != 'object') {
+if (typeof browser != "object") {
     browser = chrome;
   }
   
