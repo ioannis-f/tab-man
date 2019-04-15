@@ -5,11 +5,11 @@ if (typeof browser != "object") {
     browser = chrome;
   }
   
-// Access winlist variable from background.js
-var b = browser.extension.getBackgroundPage();
-//var b = await browser.runtime.getBackgroundPage();
-var winlist = b.winlist;
-var tm = b.tm;
+// Access winlist letiable from background.js
+let b = browser.extension.getBackgroundPage();
+//let b = await browser.runtime.getBackgroundPage();
+let winlist = b.winlist;
+let tm = b.tm;
 
-var currentWindowId;
-var messages =  document.getElementById("_messages");
+let currentWindowId;
+let messages =  document.getElementById("_messages");

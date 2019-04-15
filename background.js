@@ -15,7 +15,7 @@ browser.windows.onRemoved.addListener(tabsSync);
 log("Background Loop ended");
 
 // ### NEW ###############################
-var tm = {};  // { "list":[] , "lastchange":new Date() , "_addarea":"" } ;
+let tm = {};  // { "list":[] , "lastchange":new Date() , "_addarea":"" } ;
 tabsSync();
 
 

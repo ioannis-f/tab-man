@@ -11,7 +11,7 @@ function createview_main() {
     log("Creating view");
   
     // Single window line placeholder
-    var windowPHolder = ' \
+    let windowPHolder = ' \
       <div class="browser-style boxLeft" draggable="true" > \
         <input type="checkbox" id="IDX_check" value="checked" CHECKEDVALUE> \
         <input type="text" id="IDX_name" class="nameInput" style="color:red" value="NAME"> \

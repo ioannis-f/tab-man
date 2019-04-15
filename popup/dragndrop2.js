@@ -1,6 +1,6 @@
 // https://codepen.io/retrofuturistic/pen/tlbHE
 
-var dragSrcEl = null;
+let dragSrcEl = null;
 
 function handleDragStart(e) {
   // Target (this) element is the source node.
@@ -41,9 +41,9 @@ function handleDrop(e) {
     //dragSrcEl.innerHTML = this.innerHTML;
     //this.innerHTML = e.dataTransfer.getData("text/html");
     this.parentNode.removeChild(dragSrcEl);
-    var dropHTML = e.dataTransfer.getData("text/html");
+    let dropHTML = e.dataTransfer.getData("text/html");
     this.insertAdjacentHTML("beforebegin",dropHTML);
-    var dropElem = this.previousSibling;
+    let dropElem = this.previousSibling;
     addDnDHandlers(dropElem);
     
   }
@@ -70,5 +70,5 @@ function addDnDHandlers(elem) {
 
 }
 
-var cols = document.querySelectorAll("#columns .column");
+let cols = document.querySelectorAll("#columns .column");
 [].forEach.call(cols, addDnDHandlers);

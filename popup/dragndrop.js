@@ -53,7 +53,7 @@ document.addEventListener("dragstart", function(event) {
       event.target.style.border = "";
       // Get the dragged data with the dataTransfer.getData() method
       // The dragged data is the id of the dragged element ("drag1")
-      var data = event.dataTransfer.getData("Text");
+      let data = event.dataTransfer.getData("Text");
       // Append the dragged element into the drop element
       event.target.appendChild(document.getElementById(data));
   }

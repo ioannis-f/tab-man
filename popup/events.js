@@ -4,7 +4,7 @@
 
 
 console.log("events.js started");
-var b = browser.extension.getBackgroundPage();
+let b = browser.extension.getBackgroundPage();
 
 function setEventListeners() {
     // onclick event listener
@@ -311,15 +311,15 @@ function moveItemDown(i){
 // Open new window
 function openNewWindow(urls){
 log (urls);
-  var creating = browser.windows.create({ "url": urls });
+  let creating = browser.windows.create({ "url": urls });
 }
 // Open new tabs
 function openNewTabs(urls){
-    var creating = browser.tabs.create({ "url": urls });
+    let creating = browser.tabs.create({ "url": urls });
 }
 function toggleCollapse(idspec) {
     let tmp = document.getElementById(idspec + "_Text");
-    var btn = document.getElementById(idspec + "_collapse");
+    let btn = document.getElementById(idspec + "_collapse");
     
     if (tmp.style.display === "none") {
         tmp.style.display = "block";
@@ -354,14 +354,14 @@ function grabUrlsFromString(str){
   http://10.2.2.1.2/ttxx/txt/gg \
   ";
   */
-  // ***  var re = /(https?):\/\/(www\.)?[a-z0-9\.:].*?(?=\s)/gi;
-  var re =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+  // ***  let re = /(https?):\/\/(www\.)?[a-z0-9\.:].*?(?=\s)/gi;
+  let re =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
   
   return str.match(re);
 }
   
 function grabUrlsFromString2(str) {
-    var re =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+    let re =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
     return str.replace(re, function(url) {
         return '<a href="' + url + '">' + url + '</a>'; // SINGLE QUOTES
     });
