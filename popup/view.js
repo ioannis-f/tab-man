@@ -2,11 +2,10 @@ console.log("view.js started");
 
 
 function createview() {
-    chrome.windows.getCurrent(function(){
-      currentWindow_id = window.id ;
-      log("getCurrent_callback");
-      createview_main();
-    });
+  browser.windows.getCurrent(function(window){
+    currentWindow_id = window.id ;
+    createview_main();
+  });
 }
 function createview_main() {
     log("Creating view");

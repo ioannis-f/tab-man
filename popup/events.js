@@ -21,14 +21,14 @@ function setEventListeners() {
       switch (cmd) {
       
         // Menu
-        case "check":
+        case "selecttoggle":
         tm.list[ii].checked = 
-          document.getElementById(id +"_check").checked;
+          document.getElementById(id +"_selecttoggle").checked;
         b.saveToStorage();  // Save to storage
         break;
         
-        case "checkalltoggle":
-        if( document.getElementById("_checkall").checked ){
+        case "selecttoggle_all":
+        if( document.getElementById("_selecttoggle_all").checked ){
           bulkSelect();
         }
         else{
@@ -239,8 +239,8 @@ function moveItemDown(i){
         break;
 
 
-        case "sort":
-          winlistSort();
+        case "check":
+          b.checkStorageIntegrity();
         break;
   
         

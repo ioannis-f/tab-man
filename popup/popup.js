@@ -8,10 +8,6 @@
 
 log("popup.js: Started");
 
-var currentWindow_id;
-var messages =  document.getElementById("_messages");
-
-
 document.addEventListener("DOMContentLoaded", createview);  // createview();
 
 // Message receive

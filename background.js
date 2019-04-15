@@ -75,6 +75,29 @@ function loadFromStorage(){
 }
 */
 
+function checkStorageIntegrity(act){
+  //use: checkStorageIntegrity(true);
+  log("checking: Storage Integrity");
+  //log(tm);
+
+  if(typeof tm.list == "undefined"){
+    log("# CORRUPTED: tm.list"); 
+    return "tm.list";
+  }
+  for (let i in tm.list) {
+//    log("###" + i + " " +()) ;
+    if (typeof tm.list[i] == "undefined" || tm.list[i]== null){
+      log("# CORRUPTED: tm.list[" +i +"}"); 
+      if(act){
+        delete tm.list[i];
+        log(tm);
+      }
+    }
+
+  }
+}
+
+
 function tabsSync(){
   log("\n# Syncing: Loading Data");
   browser.storage.local.get("tabman", function (data) {
@@ -83,6 +106,7 @@ function tabsSync(){
       //log(data);
       tm = data["tabman"];
       log(tm);
+      checkStorageIntegrity(true);
       // ...otherwise, initialize storage
       } else {
         let tmp = { "list":[] , "lastchange":new Date() , "_addarea":"" } ;
@@ -91,7 +115,6 @@ function tabsSync(){
           log("# load: storage initialized");
         })
       };
-
     tabsSync_query();
   });
   return  new Promise(function(resolve, reject) {
@@ -114,8 +137,12 @@ function tabsSync_query() {
 function tabsSyncLoop(tabs) {
   // set all windows open flag to false 
   log(tm);
-  for (let i3 in tm.list) {
-    if(typeof tm.list[i3] !="undefined") {tm.list[i3].open = false;}
+  for (let i in tm.list) {
+    log("tabsSyncLoop: " + i +"  " + typeof tm.list[i].id);
+    if(typeof tm.list[i] =="undefined" || typeof tm.list[i] == null) {
+      continue;
+    }
+    tm.list[i].open = false;
   }
   for (let tab of tabs) {
     //log("# Tab: " + String(tab.windowId) + ": " +tab.url + " " +tab.title);
@@ -265,11 +292,6 @@ function saveToStorage(){
       log("Data Saved: pop-up");
     }
   });
-}
-function checkStorageIntegrity(){
-  if(typeof tm.list == "undefined"){
-    return "Sorage Corrupted";
-  }
 }
 async function clearStorage(){
   await browser.storage.local.remove("tabman");
