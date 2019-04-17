@@ -1,30 +1,3 @@
-console.log("synchronise.js started");
-
-// Keep chrome compatible creating browser object
-if (typeof browser != "object") {
-  browser = chrome;
-}
-
-// Access background.js
-var b = browser.extension.getBackgroundPage();
-var tm = b.tm;
-//var winlist = b.winlist;
-
-log("RRRRRRRRRRRRRR" );
-log(tm);
-let currentWindowId;
-let messages =  document.getElementById("_messages");
-
-
-
-// ### LIBRARY #################################
-// # Clear data in storage
-function storage_clear(id) {
-  // storage_clear("store");
-  browser.storage.local.remove(id);
-  log("cleared");
-}
-
 function timestamp() {
   let x = new Date();
   return x.toISOString().split("-").join("")
@@ -45,3 +18,42 @@ function msg(str){
   //messages.innerHTML = messages.innerHTML + "\n" + str;
   messages.innerHTML = str;
 }
+
+
+
+
+var dragged;
+
+/* events fired on the draggable target */
+document.addEventListener("drag", function(event) {
+log("drag: " + event);
+}, false);
+
+document.addEventListener("dragstart", function(event) {
+  log("dragstart: " + event);
+  // store a ref. on the dragged elem
+  dragged = event.target;
+  // make it half transparent
+  event.target.style.opacity = .5;
+}, false);
+
+document.addEventListener("dragend", function(event) {
+  log("dragend: " + event);
+  // reset the transparency
+  event.target.style.opacity = "";
+}, false);
+
+/* events fired on the drop targets */
+document.addEventListener("dragover", function(event) {
+  log("dragover: " + event);
+  event.preventDefault();
+}, false);
+
+document.addEventListener("dragenter", function(event) {
+  log("dragenter: " + event);
+  // highlight potential drop target when the draggable element enters it
+  if (event.target.className == "dropzone") {
+    event.target.style.background = "purple";
+  }
+
+}, false);

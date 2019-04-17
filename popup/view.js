@@ -12,7 +12,7 @@ function createview_main() {
     // Single window line placeholder
     let windowPHolder = ' \
       <div class="browser-style boxLeft" draggable="true" > \
-        <input type="checkbox" id="IDX_check" value="checked" CHECKEDVALUE> \
+        <input type="checkbox" id="IDX_selecttoggle" value="checked" CHECKEDVALUE> \
         <input type="text" id="IDX_name" class="nameInput" style="color:red" value="NAME"> \
         <button class="browser-style" id="IDX_collapse">▼</button> \
         <button class="browser-style" id="IDX_Show">Show</button> \

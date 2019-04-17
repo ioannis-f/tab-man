@@ -1,5 +1,4 @@
 console.log("events.js started");
-//let b = browser.extension.getBackgroundPage();
 
 function setEventListeners() {
   // onclick event listener
@@ -170,8 +169,7 @@ function setEventListeners() {
       case "bulkmoveup":
         wlen = (tm.list.length - 1);
         for (let i in tm.list) {
-          //for(let i = wlen; i >= 0; i-- ){
-          log("ii: " + i + " " + tm.list[i]);
+          //log("# bulkmoveup  ii: " + i + " " + tm.list[i]);
           if (tm.list[i].checked) {
             moveItemUp(i);
           }
@@ -184,7 +182,7 @@ function setEventListeners() {
         log(tm);
         wlen = (tm.list.length - 1);
         for (let i = wlen; i >= 0; i--) {
-          log("i: " + i);
+          //log("i: " + i);
           //for (let i in tm.list){
           if (tm.list[i].checked) {
             moveItemDown(i);
@@ -208,6 +206,7 @@ function setEventListeners() {
           if (i == (tm.list.length - 1)) {
             return
           }
+          log("Moving Down ii: " +i);
           let i2 = parseInt(i, 10) + 1;
           let temp = tm.list[i];
           tm.list[i] = tm.list[i2];
