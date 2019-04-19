@@ -76,28 +76,6 @@ function loadFromStorage(){
 }
 */
 
-function checkStorageIntegrity(act){
-  //use: checkStorageIntegrity(true);
-  log("checking: Storage Integrity");
-  //log(tm);
-
-  if(typeof tm.list == "undefined"){
-    log("# CORRUPTED: tm.list"); 
-    return "tm.list";
-  }
-  for (let i in tm.list) {
-//    log("###" + i + " " +()) ;
-    if (typeof tm.list[i] == "undefined" || tm.list[i]== null){
-      log("# CORRUPTED: tm.list[" +i +"}"); 
-      if(act){
-        delete tm.list[i];
-        log(tm);
-      }
-    }
-
-  }
-}
-
 
 function tabsSync(){
   log("\n# Syncing: Loading Data");
@@ -248,15 +226,44 @@ function test_AddDuplicateWindow(){   // *** BAD: it creates duplicate with the 
 function findPosById(id){
   // let ii = findIdInList("100");
   // if( ii != "" ){}
-try {
-  for (let i in tm.list){
-    if( tm.list[i].id == id) {
-      return i; 
+
+  try {
+    for (let i in tm.list){
+      if( tm.list[i].id == id) {
+        return i; 
+      }
     }
-  }
-} catch (error) {}
-    return "";
+  } catch (error) {}
+      return "";
 }
+
+function checkStorageIntegrity(act){
+  //use: checkStorageIntegrity(true);
+  log("checking: Storage Integrity");
+  //log(tm);
+
+  if( typeof tm == "undefined"){
+    return ;
+  }
+  if(typeof tm.list == "undefined"){
+    log("# CORRUPTED: tm.list"); 
+    return ;
+  }
+  for (let i in tm.list) {
+//    log("###" + i + " " +()) ;
+    if (typeof tm.list[i] == "undefined" || tm.list[i]== null){
+      log("# CORRUPTED: tm.list[" +i +"]"); 
+      if(act){
+        log("# Removing: tm.list[" +i +"]"); 
+        tm.list.splice(i,1);  // remove item in position
+        saveToStorage();
+      }
+    }
+
+  }
+}
+
+
 
 /*  STRUCTURE:
 tm = {

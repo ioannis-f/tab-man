@@ -11,7 +11,7 @@ function createview_main() {
   
     // Single window line placeholder
     let windowPHolder = ' \
-      <div class="browser-style boxLeft" draggable="true" > \
+      <div class="browser-style boxLeft" id="IDX_item" draggable="true" > \
         <input type="checkbox" id="IDX_selecttoggle" value="checked" CHECKEDVALUE> \
         <input type="text" id="IDX_name" class="nameInput" style="color:red" value="NAME"> \
         <button class="browser-style" id="IDX_collapse">▼</button> \
@@ -35,7 +35,7 @@ function createview_main() {
         continue;
       }      
       try {
-        log("### Printing 01: ii " + ii + " " + tm.list[ii].id);
+        //log("### Printing 01: ii " + ii + " " + tm.list[ii].id);
         
         let id = tm.list[ii].id;
         let urls = joinUrls(ii, "html", 66);
