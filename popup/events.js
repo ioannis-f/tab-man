@@ -378,4 +378,24 @@ function nameChange(event) {
 
 
 
-
+  
+function swapArrayItems(srcElementId, destElementId){
+  //use: swapArrayItems(dragged.id, event.target.id);
+  
+    let i1 = b.findPosById(srcElementId.split("_")[0]);
+    let i2 = b.findPosById(destElementId.split("_")[0]);
+  
+    let tmp = tm.list[i1];
+    tm.list.splice(i1, 1);           // Remove from source position
+    if(i2==""){
+      log("### empty");
+      i2 = tm.list.length;
+    }
+    tm.list.splice(i2, 0, tmp);      // Insert to destination position
+    //log(tm);
+    b.saveToStorage(); // Save to storage
+    createview();
+  
+  }
+  
+  

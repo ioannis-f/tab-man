@@ -117,10 +117,10 @@ function tabsSyncLoop(tabs) {
   // set all windows open flag to false 
   log(tm);
   for (let i in tm.list) {
-    log("tabsSyncLoop: " + i +"  " + typeof tm.list[i].id);
     if(typeof tm.list[i] =="undefined" || typeof tm.list[i] == null) {
       continue;
     }
+    //log("tabsSyncLoop: " + i +"  " + typeof tm.list[i].id);
     tm.list[i].open = false;
   }
   for (let tab of tabs) {
@@ -167,19 +167,39 @@ function cleanupDuplicateTabs(){
     //log("Checking FirstDuplicateTab id: " + i1 +" ");
     let i2 = findFirstDuplicateTab(i1);
     if (i2 ){
-      //log("\n Found duplicates: " + id1 + " " + tm.list[id1].open + " " +id2 +" " + tm.list[id2].open);
+      log("\n Found duplicates: " 
+       + "\n " +i1 + " " + tm.list[i1].open +" " +tm.list[i1].created_date +" " 
+       + "\n " +i2 + " " + tm.list[i2].open +" " +tm.list[i2].created_date);
+
+      //if(tm.list[i1].created_date < tm.list[i2].created_date){  // keep the older
+      if(tm.list[i2].open){ // keep the one that is closed
+        tm.list[i1].id = tm.list[i2].id;
+        tm.list[i1].open = true
+        log("Removing i2: " + i2);
+        tm.list.splice(i2, 1);
+      }
+      else{
+        tm.list[i2].id = tm.list[i1].id;
+        tm.list[i2].open = true
+        log("Removing i1: " + i1);
+        tm.list.splice(i1, 1);
+      }
+
+    /*
       if( tm.list[i1].open ){
         tm.list[i1].name = tm.list[i2].name;
         tm.list[i1].created_date = tm.list[i2].created_date;
-        log("Removing id: " + tm.list[i2].id);
-        tm.list.splice(i2, 1);
+        log("Removing i: " + tm.list[i2].id);
+    //    tm.list.splice(i2, 1);
       }
       else if( tm.list[i2].open ){
         tm.list[i2].name = tm.list[i1].name;
         tm.list[i2].created_date = tm.list[i1].created_date;
-        log("Removing id: " + tm.list[i1].id);
-        tm.list.splice(i1, 1);
+        log("Removing i: " + tm.list[i1].id);
+    //    tm.list.splice(i1, 1);
       }
+      */
+    
     }
   }
   log(tm);
@@ -194,7 +214,7 @@ function findFirstDuplicateTab(i1){
     //log("  With: " + i2);
     const list2_str = JSON.stringify(tm.list[i2].urls);
     if ( (i1 != i2) && (list1_str == list2_str)){   // 
-      log(" Duplicates Found, ids:" + tm.list[i1].id + " " +tm.list[i2].id +"  ii:" +i1 +" " +i2 );
+      log(" Duplicate, ids:" + tm.list[i1].id + " " +tm.list[i2].id +"  ii:" +i1 +" " +i2 );
       return i2;
     }
    }
@@ -291,7 +311,7 @@ function addNewWindow(id, name, createDay){
     "lastchange_date": "",  // TBI
   };   
 }
-
+   
 function saveToStorage(){
   browser.storage.local.set({"tabman": tm}, function() {
     if (browser.runtime.lastError) {
@@ -312,8 +332,7 @@ async function clearStorage(){
     msg("Cleared");
   }
 }
-
-
+    
 function timestamp() {
   let x = new Date();
   return x.toISOString().split("-").join("")
@@ -330,7 +349,6 @@ function logerror(str){
 function onError(error) {
     console.log(`Error: ${error}`);
 }
-
 
 
 function test_AddNewWindow(id){

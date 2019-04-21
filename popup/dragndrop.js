@@ -9,22 +9,24 @@ document.addEventListener("drag", function(event) {
 }, false);
 */
 document.addEventListener("dragstart", function(event) {      // ***
-    log("dragstart: " + event.target.id);
+  log("dragstart: " + event.target.id);
   log(event);
+  
+  event.dataTransfer.setData("text", "somedata");
   // store a ref. on the dragged elem
   dragged = event.target;
   //make it half transparent
   event.target.style.opacity = .5;
 }, false);
 
-/*
-document.addEventListener("dragend", function(event) {
-  log("dragend: " + event.target.id);
+
+document.addEventListener("dragend", function(event) {      // ***
+  log("dragend: " + event.target.id); 
   log(event);
-  // reset the transparency
+  // reset the transparency     
   event.target.style.opacity = "";
 }, false);
-*/
+
 
 // *** events fired on the drop targets 
 document.addEventListener("dragover", function(event) {       // ***
@@ -55,10 +57,10 @@ document.addEventListener("dragleave", function(event) {
 
 
 document.addEventListener("drop", function(event) {
+  event.preventDefault();
   log("### drop,  Source: " +dragged.id +"  dest: " + event.target.id);
   log("## From id: " + dragged.id.split("_")[0] + " to id:" + event.target.id.split("_")[0]);
   // prevent default action (open as link for some elements)
-  event.preventDefault();
 
   log(event);
   swapArrayItems(dragged.id, event.target.id);
@@ -70,22 +72,4 @@ document.addEventListener("drop", function(event) {
     event.target.appendChild( dragged );
   }
 }, false);
-
-
-function swapArrayItems(srcElementId, destElementId){
-  let i1 = b.findPosById(srcElementId.split("_")[0]);
-  let i2 = b.findPosById(destElementId.split("_")[0]);
-
-  let tmp = tm.list[i1];
-  tm.list.splice(i1, 1);           // Remove from source position
-  if(i2==""){
-    log("### empty");
-    i2 = tm.list.length;
-  }
-  tm.list.splice(i2, 0, tmp);      // Insert to destination position
-  //log(tm);
-  b.saveToStorage(); // Save to storage
-  createview();
-
-}
 
