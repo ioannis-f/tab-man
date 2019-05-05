@@ -86,15 +86,17 @@ function tabsSync(){
       tm = data["tabman"];
       log(tm);
       checkStorageIntegrity(true);
+      tabsSync_query();
       // ...otherwise, initialize storage
       } else {
         let tmp = { "list":[] , "lastchange":new Date() , "_addarea":"" } ;
         browser.storage.local.set({ "tabman": tmp }, function(){
           tm = tmp;
-          log("# load: storage initialized");
+          log("# load: storage initialized:");
+          log(tm);
+          tabsSync_query();
         });
       };
-    tabsSync_query();
   });
   return  new Promise(function(resolve, reject) {
     resolve("finished");

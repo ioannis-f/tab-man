@@ -14,14 +14,13 @@ function setEventListeners() {
     log("click cmd:" + cmd + "  id:" + id);
 
     switch (cmd) {
-
       // Menu
       case "selecttoggle":
         tm.list[ii].checked =
           document.getElementById(id + "_selecttoggle").checked;
         b.saveToStorage(); // Save to storage
         break;
-
+        
       case "selecttoggle_all":
         if (document.getElementById("_selecttoggle_all").checked) {
           bulkSelect();
@@ -95,6 +94,8 @@ function setEventListeners() {
         }
         saveToClipboard(output);
         msg("bulk clip copy");
+        bulkUnSelect();
+        b.saveToStorage(); // Save to storage
         break;
 
 
@@ -104,7 +105,7 @@ function setEventListeners() {
         msg("List opened in new Tab");
         break;
 
-        // show or hide pastearea
+/*        // show or hide pastearea
       case "pasteareashow":
         tmp = document.getElementById("_pastearea");
         //let y = document.getElementById("_paste");
@@ -117,8 +118,21 @@ function setEventListeners() {
           //y.innerHTML = "Done ▲";
         }
         break;
+*/
+        case "pasteareashow":
+        tmp = document.getElementById("_pastearea");
+        log(tmp);
+        if(tmp == null){
+          log("show paste area");
+          createView_PasteArea();
+        }
+        else{
+          log("show list");
+          createView_list();
+        }
+        break;
 
-      case "pastenow":
+      case "pastedone":
         tmp = document.getElementById("_pastearea");
         let res = grabUrlsFromString(tmp.innerText);
         tmp.innerText = res.join("\n");

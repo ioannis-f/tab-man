@@ -3,10 +3,21 @@ console.log("view.js started");
 function createview() {
   browser.windows.getCurrent(function(window){
     currentWindowId = window.id ;
-    createview_main();
+    createView_list();
   });
 }
-function createview_main() {
+
+function createView_PasteArea(){
+  let output= ' \
+    <div class="pastearea boxLeft" style="display:block" id="_pastearea"> \
+      <div contenteditable="true" id="_pastearea_txt"></div> \
+    </div> \
+  ';
+
+  listText.innerHTML = output;
+}
+
+function createView_list() {
     log("Creating view");
   
     // Single window line placeholder

@@ -1,7 +1,10 @@
-html,
+html {
+  background-color: #cca94098;
+}
+
 body {
   width: 450px;
-  height: 500px;
+  /* height: 500px; */
   background-color: #cca94098;
   /* #ffc000; */
   margin: 0px !important;
@@ -39,7 +42,6 @@ body {
   white-space: pre;
   width: 100%;
 }
-
 
 .pastearea {
   height: 100px;
