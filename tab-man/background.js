@@ -142,7 +142,7 @@ function tabsSyncLoop(tabs) {
       if(typeof tm.list != "undefined"){
         ii = tm.list.length;
       }
-      tm.list[ii] = addNewWindow(id , id , new Date());
+      tm.list[ii] = addNewWindow(id , "" , new Date());
     }
     
     // Initially erase tm.list[ii].urls (disable history recording)

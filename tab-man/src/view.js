@@ -7,24 +7,14 @@ function createview() {
   });
 }
 
-function createView_PasteArea(){
-  let output= ' \
-    <div class="pastearea boxLeft" style="display:block" id="_pastearea"> \
-      <div contenteditable="true" id="_pastearea_txt"></div> \
-    </div> \
-  ';
-
-  listText.innerHTML = output;
-}
-
 function createView_list() {
     log("Creating view");
   
     // Single window line placeholder
     let windowPHolder = ' \
-      <div class="browser-style boxLeft" id="IDX_item" draggable="true" > \
+      <div class="browser-style boxLeft" id="IDX_item" draggable="true"  style="color:red; border: 1px solid;" > \
         <input type="checkbox" id="IDX_selecttoggle" value="checked" CHECKEDVALUE> \
-        <input type="text" id="IDX_name" class="nameInput" style="color:red" value="NAME"> \
+        <input type="text" id="IDX_name" class="nameInput" value="NAME" placeholder="Enter name Here!!"> \
         <button class="browser-style" id="IDX_collapse">▼</button> \
         <button class="browser-style" id="IDX_Show">Show</button> \
         <div class="boxRight"> \
@@ -66,7 +56,7 @@ function createView_list() {
         
         //log( "IDs: " +id +" " + currentWindowId)
         if( id != currentWindowId){
-          win = win.split('style="color:red"').join( "" );  
+          win = win.split('style="color:red; border: 1px solid;"').join( "" );  
         }
         // If window is open: Hide "x" button
         if( (tm.list[ii].open) ){

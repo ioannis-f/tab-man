@@ -1,6 +1,7 @@
 console.log("events.js started");
 
 function setEventListeners() {
+  log("setting EventListeners");
   // onclick event listener
   window.onclick = onclick_callback;
 
@@ -101,24 +102,11 @@ function setEventListeners() {
 
       case "inpage":
         //openNewWindow("page.html");
-        openNewTabs("/popup/page.html"); // /popup/page.html"
+        openNewTabs("/src/page.html"); // /src/page.html"
         msg("List opened in new Tab");
         break;
 
-/*        // show or hide pastearea
-      case "pasteareashow":
-        tmp = document.getElementById("_pastearea");
-        //let y = document.getElementById("_paste");
-        if (tmp.style.display === "block") {
-          tmp.style.display = "none";
-          //y.innerHTML = "Paste ▼";
-        } else {
-          tmp.style.display = "block";
-          document.getElementById("_pastearea_txt").innerText = tm["_addarea"];
-          //y.innerHTML = "Done ▲";
-        }
-        break;
-*/
+/*
         case "pasteareashow":
         tmp = document.getElementById("_pastearea");
         log(tmp);
@@ -131,9 +119,11 @@ function setEventListeners() {
           createView_list();
         }
         break;
-
+*/
       case "pastedone":
-        tmp = document.getElementById("_pastearea");
+        log("checking pastearea");
+        tmp = document.getElementById("_pastearea_txt");
+log("text: " + tmp.innerText);
         let res = grabUrlsFromString(tmp.innerText);
         tmp.innerText = res.join("\n");
         openNewWindow(res);
@@ -308,6 +298,7 @@ function nameChange(event) {
   switch (cmd) {
 
     case "pastearea":
+      msg("pastearea, enter clicked")
       let str = event.target.innerText;
       //log(str);
       tm["_addarea"] = str;
@@ -358,35 +349,6 @@ function nameChange(event) {
       /* clipboard successfully set */
     }, function () {
       msg("clipboard write failed");
-    });
-  }
-
-  function grabUrlsFromString(str) {
-    // let res = grabUrlsFromString(str);
-    /*
-    str = " \
-    regexbuddy.com \
-    www.regexbuddy.com \
-    aa   http://regexbuddy.com \
-    dds http://www.regexbuddy.com \
-    href="http://www.regexbuddy.com/" \
-    http://www.regexbuddy.com/index.html \
-    dds  http://www.regexbuddy.com/index.html?source=library \
-    sddf http://www.regexbuddy.com/download.html. dfsdf \
-    www.domain.com/quoted \
-    http://10.2.2.1.2/ttxx/txt/gg \
-    ";
-    */
-    // ***  let re = /(https?):\/\/(www\.)?[a-z0-9\.:].*?(?=\s)/gi;
-    let re = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-
-    return str.match(re);
-  }
-
-  function grabUrlsFromString2(str) {
-    let re = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-    return str.replace(re, function (url) {
-      return '<a href="' + url + '">' + url + '</a>'; // SINGLE QUOTES
     });
   }
 

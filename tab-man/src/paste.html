@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="popup.css" />
+    <meta name="viewport" content="width=370, user-scalable=no" />
+  </head>
+
+  <body>
+    <div class="navbar">
+      <a id="_pastedone" href="#home">Done</a>
+      <a id="_pastecancel" href="popup.html">Cancel</a>
+    </div>
+
+    <div
+      class="messages boxLeft"
+      contenteditable="true"
+      style="display:block"
+      id="_messages"
+    ></div>
+
+    <div id="_pastearea">
+      <textarea
+        wrap="soft"
+        id="_pastearea_txt"
+        placeholder="Paste from clipboard Here!!"
+      >
+      </textarea>
+    </div>
+
+    <script src="synchronise.js"></script>
+    <script src="view.js"></script>
+    <script src="events.js"></script>
+    <!-- <script src="dragndrop.js"></script> -->
+    <!-- <script src="popup.js"></script> -->
+
+    <script src="paste.js"></script>
+  </body>
+</html>

@@ -19,7 +19,7 @@
     "default_icon": "icons/tabman96.png",
     "browser_style": true,
     "default_title": "Tab-man",
-    "default_popup": "popup/popup.html"
+    "default_popup": "src/popup.html"
   },
   "background": {
     "scripts": [

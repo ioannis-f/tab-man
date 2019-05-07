@@ -128,14 +128,14 @@
       <button class="boxLeft" id="_pastenow">Add</button>
     </div> -->
 
-    <div id="listText"></div>
-
     <div
       class="messages boxLeft"
       contenteditable="true"
       style="display:block"
       id="_messages"
     ></div>
+
+    <div id="listText"></div>
 
     <script src="synchronise.js"></script>
     <script src="view.js"></script>
