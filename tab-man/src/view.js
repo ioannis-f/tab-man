@@ -83,6 +83,10 @@ function createView_list() {
     //output = '<div ondragover="allowDrop" ondrop="drop(event)" > ' + output +'</div>' ;
     listText.innerHTML = output;
     setEventListeners();
+
+    // # Jump to current's window line using id
+    var elmnt = document.getElementById(currentWindowId + "_item");
+    elmnt.scrollIntoView();
   }
 
   function joinUrls(ii, mode, titleChars){
