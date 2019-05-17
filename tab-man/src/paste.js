@@ -12,7 +12,6 @@ let currentWindowId;
 
 setEventListeners();
 
-
 function grabUrlsFromString(str) {
   // let res = grabUrlsFromString(str);
   /*
@@ -30,15 +29,14 @@ function grabUrlsFromString(str) {
   ";
   */
   // ***  let re = /(https?):\/\/(www\.)?[a-z0-9\.:].*?(?=\s)/gi;
-  let re = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+  let re = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
 
   return str.match(re);
 }
 
 function grabUrlsFromString2(str) {
-  let re = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-  return str.replace(re, function (url) {
-    return '<a href="' + url + '">' + url + '</a>'; // SINGLE QUOTES
+  let re = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+  return str.replace(re, function(url) {
+    return '<a href="' + url + '">' + url + "</a>"; // SINGLE QUOTES
   });
 }
-

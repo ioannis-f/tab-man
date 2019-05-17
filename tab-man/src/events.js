@@ -6,7 +6,6 @@ function setEventListeners() {
   window.onclick = onclick_callback;
 
   function onclick_callback(event) {
-
     let tmp;
     let tmp_ar = event.target.id.split("_");
     let id = tmp_ar[0];
@@ -17,11 +16,12 @@ function setEventListeners() {
     switch (cmd) {
       // Menu
       case "selecttoggle":
-        tm.list[ii].checked =
-          document.getElementById(id + "_selecttoggle").checked;
+        tm.list[ii].checked = document.getElementById(
+          id + "_selecttoggle"
+        ).checked;
         b.saveToStorage(); // Save to storage
         break;
-        
+
       case "selecttoggle_all":
         if (document.getElementById("_selecttoggle_all").checked) {
           bulkSelect();
@@ -56,7 +56,7 @@ function setEventListeners() {
           }
         }
 
-        // General menu
+      // General menu
       case "remove":
         msg("Deleted");
         delete tm.list[ii];
@@ -76,7 +76,6 @@ function setEventListeners() {
         createview();
         break;
 
-
       case "clipcopy":
         saveToClipboard(joinUrls(ii, "text", 0));
         msg("Copied to clipboard");
@@ -86,7 +85,6 @@ function setEventListeners() {
         let output = "";
         for (let ii in tm.list) {
           if (tm.list[ii].checked) {
-
             log("ID: " + id + " | " + tm.list[ii].checked);
             output += tm.list[ii].name + "\n";
             output += joinUrls(ii, "text", 0);
@@ -99,14 +97,13 @@ function setEventListeners() {
         b.saveToStorage(); // Save to storage
         break;
 
-
       case "inpage":
         //openNewWindow("page.html");
         openNewTabs("/src/page.html"); // /src/page.html"
         msg("List opened in new Tab");
         break;
 
-/*
+      /*
         case "pasteareashow":
         tmp = document.getElementById("_pastearea");
         log(tmp);
@@ -123,14 +120,13 @@ function setEventListeners() {
       case "pastedone":
         log("checking pastearea");
         tmp = document.getElementById("_pastearea_txt");
-log("text: " + tmp.innerText);
+        log("text: " + tmp.innerText);
         let res = grabUrlsFromString(tmp.innerText);
         tmp.innerText = res.join("\n");
         openNewWindow(res);
         break;
 
-
-        // Item menu
+      // Item menu
       case "collapse":
         toggleCollapse(id);
         break;
@@ -152,10 +148,9 @@ log("text: " + tmp.innerText);
           }
         }
         urls = urls.trim().split(" "); // convert to array
-        log("Open urls: " + urls)
+        log("Open urls: " + urls);
         openNewWindow(urls); // ASDF
         break;
-
 
       case "moveup":
         moveItemUp(id);
@@ -169,9 +164,8 @@ log("text: " + tmp.innerText);
         createview();
         break;
 
-
       case "bulkmoveup":
-        wlen = (tm.list.length - 1);
+        wlen = tm.list.length - 1;
         for (let i in tm.list) {
           //log("# bulkmoveup  ii: " + i + " " + tm.list[i]);
           if (tm.list[i].checked) {
@@ -184,7 +178,7 @@ log("text: " + tmp.innerText);
 
       case "bulkmovedown":
         log(tm);
-        wlen = (tm.list.length - 1);
+        wlen = tm.list.length - 1;
         for (let i = wlen; i >= 0; i--) {
           //log("i: " + i);
           //for (let i in tm.list){
@@ -196,9 +190,10 @@ log("text: " + tmp.innerText);
         createview();
         break;
 
-        function moveItemUp(i) { //  0  << ... ii ... end
+        function moveItemUp(i) {
+          //  0  << ... ii ... end
           if (i == 0) {
-            return
+            return;
           }
           let i2 = parseInt(i, 10) - 1;
           let temp = tm.list[i];
@@ -207,30 +202,30 @@ log("text: " + tmp.innerText);
         }
 
         function moveItemDown(i) {
-          if (i == (tm.list.length - 1)) {
-            return
+          if (i == tm.list.length - 1) {
+            return;
           }
-          log("Moving Down ii: " +i);
+          log("Moving Down ii: " + i);
           let i2 = parseInt(i, 10) + 1;
           let temp = tm.list[i];
           tm.list[i] = tm.list[i2];
           tm.list[i2] = temp;
         }
-        // function findPosById (id){
-        //   for (let item in tm.list["viewid"]) {
-        //     if (tm.list["viewid"][item] == id){return item;}
-        //   }
-        // }
-        // function findInWinlist (id){
-        //   for (let item in tm.list) {
-        //     if (tm.list[item] == id){ return item; }
-        //   }
-        // }
+      // function findPosById (id){
+      //   for (let item in tm.list["viewid"]) {
+      //     if (tm.list["viewid"][item] == id){return item;}
+      //   }
+      // }
+      // function findInWinlist (id){
+      //   for (let item in tm.list) {
+      //     if (tm.list[item] == id){ return item; }
+      //   }
+      // }
 
-        // Testing buttons
+      // Testing buttons
       case "dedup":
-        b.tabsSync().then(function (ret) {
-          b.cleanupDuplicateTabs().then(function (ret) {
+        b.tabsSync().then(function(ret) {
+          b.cleanupDuplicateTabs().then(function(ret) {
             msg("test");
             createview();
           });
@@ -243,14 +238,12 @@ log("text: " + tmp.innerText);
         b.test_AddDuplicateWindow();
         break;
 
-
       case "check":
         b.checkStorageIntegrity();
         break;
 
-
       case "clean":
-        browser.storage.local.remove("tabman", function () {
+        browser.storage.local.remove("tabman", function() {
           if (browser.runtime.lastError) {
             log(browser.runtime.lastError);
           } else {
@@ -265,7 +258,6 @@ log("text: " + tmp.innerText);
       default:
         break;
     }
-
   }
 }
 //  Submit listener
@@ -274,20 +266,18 @@ log("text: " + tmp.innerText);
 //  log("submit: " + event.target.value);
 //}
 
-//  Text "enter" key listener 
-document.addEventListener("keypress",
-  (event) => {
-    if (event.keyCode == 13) {
-      //event.preventDefault();
-      nameChange(event);
-    }
+//  Text "enter" key listener
+document.addEventListener("keypress", event => {
+  if (event.keyCode == 13) {
+    //event.preventDefault();
+    nameChange(event);
   }
-);
+});
 // onlostfocus listener
 // document.addEventListener("focusout", nameChange);
 function nameChange(event) {
   tmp_ar = event.target.id.split("_");
-  if (!(tmp_ar.length)) {
+  if (!tmp_ar.length) {
     return;
   }
   id = tmp_ar[0];
@@ -296,9 +286,8 @@ function nameChange(event) {
   log("keypress (enter):  id:" + id + " cmd:" + cmd);
 
   switch (cmd) {
-
     case "pastearea":
-      msg("pastearea, enter clicked")
+      msg("pastearea, enter clicked");
       let str = event.target.innerText;
       //log(str);
       tm["_addarea"] = str;
@@ -315,63 +304,60 @@ function nameChange(event) {
   }
 }
 
-  // Open new window
-  function openNewWindow(urls) {
-    log(urls);
-    let creating = browser.windows.create({
-      "url": urls
-    });
-  }
-  // Open new tabs
-  function openNewTabs(urls) {
-    let creating = browser.tabs.create({
-      "url": urls
-    });
-  }
+// Open new window
+function openNewWindow(urls) {
+  log(urls);
+  let creating = browser.windows.create({
+    url: urls
+  });
+}
+// Open new tabs
+function openNewTabs(urls) {
+  let creating = browser.tabs.create({
+    url: urls
+  });
+}
 
-  function toggleCollapse(idspec) {
-    let tmp = document.getElementById(idspec + "_Text");
-    let btn = document.getElementById(idspec + "_collapse");
+function toggleCollapse(idspec) {
+  let tmp = document.getElementById(idspec + "_Text");
+  let btn = document.getElementById(idspec + "_collapse");
 
-    if (tmp.style.display === "none") {
-      tmp.style.display = "block";
-      btn.innerHTML = "▲";
-    } else {
-      tmp.style.display = "none";
-      btn.innerHTML = "▼";
-    }
+  if (tmp.style.display === "none") {
+    tmp.style.display = "block";
+    btn.innerHTML = "▲";
+  } else {
+    tmp.style.display = "none";
+    btn.innerHTML = "▼";
   }
+}
 
-  function saveToClipboard(newClip) {
-    // updateClipboard("Clipboard Test");
-    // Permision: "clipboard-write"
-    navigator.clipboard.writeText(newClip).then(function () {
+function saveToClipboard(newClip) {
+  // updateClipboard("Clipboard Test");
+  // Permision: "clipboard-write"
+  navigator.clipboard.writeText(newClip).then(
+    function() {
       /* clipboard successfully set */
-    }, function () {
+    },
+    function() {
       msg("clipboard write failed");
-    });
-  }
-
-
-
-  
-function swapArrayItems(srcElementId, destElementId){
-  //use: swapArrayItems(dragged.id, event.target.id);
-  
-    let i1 = b.findPosById(srcElementId.split("_")[0]);
-    let i2 = b.findPosById(destElementId.split("_")[0]);
-  
-    let tmp = tm.list[i1];
-    tm.list.splice(i1, 1);           // Remove from source position
-    if(i2==""){
-      log("### empty");
-      i2 = tm.list.length;
     }
-    tm.list.splice(i2, 0, tmp);      // Insert to destination position
-    //log(tm);
-    b.saveToStorage(); // Save to storage
-    createview();
-  
+  );
+}
+
+function swapArrayItems(srcElementId, destElementId) {
+  //use: swapArrayItems(dragged.id, event.target.id);
+
+  let i1 = b.findPosById(srcElementId.split("_")[0]);
+  let i2 = b.findPosById(destElementId.split("_")[0]);
+
+  let tmp = tm.list[i1];
+  tm.list.splice(i1, 1); // Remove from source position
+  if (i2 == "") {
+    log("### empty");
+    i2 = tm.list.length;
   }
-  
-  
+  tm.list.splice(i2, 0, tmp); // Insert to destination position
+  //log(tm);
+  b.saveToStorage(); // Save to storage
+  createview();
+}

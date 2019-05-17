@@ -10,9 +10,11 @@ let b = browser.extension.getBackgroundPage();
 let tm = b.tm;
 let currentWindowId;
 
-let messages =  document.getElementById("_messages");
+let messages = document.getElementById("_messages");
 
-document.addEventListener("DOMContentLoaded", createview);  // createview();
+document.addEventListener("DOMContentLoaded", function() {
+  createview(true);
+});
 
 // // Message receive
 // browser.runtime.onMessage.addListener(messageNotify);
@@ -21,4 +23,3 @@ document.addEventListener("DOMContentLoaded", createview);  // createview();
 // }
 
 log("Pop-up Loop ended");
-
