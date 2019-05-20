@@ -8,6 +8,7 @@ if (typeof browser != "object") {
 // Access background.js
 let b = browser.extension.getBackgroundPage();
 let tm = b.tm;
+log(tm);
 let currentWindowId;
 
 let messages = document.getElementById("_messages");
