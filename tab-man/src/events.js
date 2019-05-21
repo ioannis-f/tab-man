@@ -67,11 +67,10 @@ function setEventListeners() {
       case "bulkremove":
         for (let ii in tm.list) {
           if (tm.list[ii].checked) {
-            tm.list[ii].checked = false;
-            msg("Changed to hidden");
+            delete tm.list[ii];
+            msg("Removed");
           }
         }
-        msg("Hidden");
         b.saveToStorage(); // Save to storage
         createview();
         break;
