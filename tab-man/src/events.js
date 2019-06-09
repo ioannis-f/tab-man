@@ -118,11 +118,14 @@ function setEventListeners() {
 */
       case "pastedone":
         log("checking pastearea");
+
         tmp = document.getElementById("_pastearea_txt");
-        log("text: " + tmp.innerText);
-        let res = grabUrlsFromString(tmp.innerText);
-        tmp.innerText = res.join("\n");
-        openNewWindow(res);
+        log("text: " + tmp.value);
+        let res = grabUrlsFromString(tmp.value);
+        if(res){
+          tmp.innerText = res.join("\n");
+          openNewWindow(res);
+        }
         break;
 
       // Item menu
@@ -225,7 +228,7 @@ function setEventListeners() {
       case "dedup":
         b.tabsSync().then(function(ret) {
           b.cleanupDuplicateTabs().then(function(ret) {
-            msg("test");
+            msg("dedup");
             createview();
           });
         });
@@ -238,10 +241,10 @@ function setEventListeners() {
         break;
 
       case "check":
-        b.checkStorageIntegrity();
+        b.checkStorageIntegrity(true);
         break;
 
-      case "clean":
+      case "clearall":
         browser.storage.local.remove("tabman", function() {
           if (browser.runtime.lastError) {
             log(browser.runtime.lastError);
@@ -286,6 +289,7 @@ function nameChange(event) {
 
   switch (cmd) {
     case "pastearea":
+      log("pastearea, enter clicked");
       msg("pastearea, enter clicked");
       let str = event.target.innerText;
       //log(str);

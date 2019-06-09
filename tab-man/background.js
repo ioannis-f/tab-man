@@ -125,6 +125,7 @@ function tabsSyncLoop(tabs) {
     //log("tabsSyncLoop: " + i +"  " + typeof tm.list[i].id);
     tm.list[i].open = false;
   }
+
   for (let tab of tabs) {
     //log("# Tab: " + String(tab.windowId) + ": " +tab.url + " " +tab.title);
     
@@ -133,7 +134,6 @@ function tabsSyncLoop(tabs) {
     
     let list = {};
     let ii = findPosById(id);
-
     //log("ii: " +ii +"  " +"id: " + id );
     //log(tm);
     // if window not exists add it
@@ -144,13 +144,15 @@ function tabsSyncLoop(tabs) {
       }
       tm.list[ii] = addNewWindow(id , "" , new Date());
     }
-    
     // Initially erase tm.list[ii].urls (disable history recording)
     if (tm.list[ii].open == false){
       tm.list[ii].urls.length = 0 ;       
+      tm.list[ii].TitlesAndUrls.length = 0 ;       
     }
     tm.list[ii].open = true ;
-    tm.list[ii].urls.push(url + " " +tab.title);               // Add link to list
+    //tm.list[ii].urls.push(url + " " +tab.title);      // old format
+    tm.list[ii].urls.push(url);                         // new format
+    tm.list[ii].TitlesAndUrls.push(url + " " + tab.title);
   }
   
   log("-----------------------------------------");
@@ -212,8 +214,15 @@ function cleanupDuplicateTabs(){
 }
 function findFirstDuplicateTab(i1){
   const list1_str = JSON.stringify(tm.list[i1].urls);
+
   for( let i2 in tm.list ){
-    //log("  With: " + i2);
+
+// if(i1==0 && i2==1){
+//   log(" Comparing " +i1 +" With: " + i2);
+//   log(list1_str +"\n\n" +JSON.stringify(tm.list[i2].urls ));
+// }
+      
+    // log(" Comparing " +i1 +" With: " + i2);
     const list2_str = JSON.stringify(tm.list[i2].urls);
     if ( (i1 != i2) && (list1_str == list2_str)){   // 
       log(" Duplicate, ids:" + tm.list[i1].id + " " +tm.list[i2].id +"  ii:" +i1 +" " +i2 );
@@ -296,7 +305,7 @@ tm = {
             {}
           ]
 }
-*/ 
+*/
 function addNewWindow(id, name, createDay){
   //if(findIdInList(id)!=""){
   //  tm.list[wtm.list.length] = addNewWindow(id , new , new Date());
@@ -305,6 +314,7 @@ function addNewWindow(id, name, createDay){
     "name": name,
     "id": id,
     "urls": [],
+    "TitlesAndUrls": [],
     "checked": false,
     "colapse": true,
     "open": true,

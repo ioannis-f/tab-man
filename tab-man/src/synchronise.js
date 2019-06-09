@@ -24,5 +24,7 @@ function onError(error) {
 }
 function msg(str) {
   //messages.innerHTML = messages.innerHTML + "\n" + str;
-  messages.innerHTML = str;
+  _messages.innerHTML = str;
 }
+
+

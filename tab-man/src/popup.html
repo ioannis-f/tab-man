@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=370, user-scalable=no" />
   </head>
 
+  <body>
+    <div class="container">
+
     <div class="navbar">
       <div class="dropdown">
         <button class="dropbtn">
@@ -19,6 +22,8 @@
           <a id="_bulkselect" href="#">All</a>
           <a id="_bulkunselect" href="#">None</a>
           <a id="_bulkremove" href="#">Remove</a>
+          <a id="_clearall" href="#">Clear All</a>
+          <a id="_dedup" href="#">deDup</a>
         </div>
       </div>
 
@@ -28,45 +33,15 @@
       <a id="_inpage" href="#home">Open in Tab</a>
       <a id="_help" href="help.html">Help</a>
       <a id="_cleanup" href="help.html">CleanUp</a>
-
-      <!-- <a id="_help" href="#home">Help</a> -->
-
-      <!-- <a href="#home">Search</a> -->
-
-      <!--       <div class="dropdown">
-        <button class="dropbtn">
-          Settings
-          <i class="fa fa-caret-down"></i>
-        </button>
-        <div class="dropdown-content">
-          <a id="_dedup" href="#">deDup</a>
-          <a id="_test" href="#">Test</a>
-          <a id="_check" href="#">Check</a>
-          <a id="_clean" href="#">Clear All</a>
-        </div>
-      </div>
- -->
     </div>
 
-    <!--   <div class="pastearea boxLeft" style="display:none" id="_pastearea">
-    <div contenteditable="true" id="_pastearea_txt"></div>
-    <button class="boxLeft" id="_pastenow">Add</button>
-  </div>
- -->
-
-    <!--    <div class="pastearea boxLeft" style="display:none" id="_pastearea">
-      <div contenteditable="true" id="_pastearea_txt"></div>
-      <button class="boxLeft" id="_pastenow">Add</button>
-    </div> -->
+    <div id="listText"></div>
 
     <div
       class="messages boxLeft"
-      contenteditable="true"
       style="display:block"
       id="_messages"
     ></div>
-
-    <div id="listText"></div>
 
     <script src="synchronise.js"></script>
     <script src="view.js"></script>
@@ -74,6 +49,6 @@
     <script src="dragndrop.js"></script>
     <script src="popup.js"></script>
 
-    <!-- <script src="dragndrop-MDN.js"></script> -->
+  </div>
   </body>
 </html>

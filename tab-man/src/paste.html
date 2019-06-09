@@ -3,30 +3,31 @@
   <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="popup.css" />
+    <!-- <link rel="stylesheet" href="page.css" /> -->
     <meta name="viewport" content="width=370, user-scalable=no" />
   </head>
 
   <body>
+    <div class="container">
+
     <div class="navbar">
       <a id="_pastedone" href="#home">Done</a>
       <a id="_pastecancel" href="popup.html">Cancel</a>
     </div>
-
-    <div
-      class="messages boxLeft"
-      contenteditable="true"
-      style="display:block"
-      id="_messages"
-    ></div>
 
     <div id="_pastearea">
       <textarea
         wrap="soft"
         id="_pastearea_txt"
         placeholder="Paste from clipboard Here!!"
-      >
-      </textarea>
+      ></textarea>
     </div>
+
+    <div
+      class="messages boxLeft"
+      style="display:block"
+      id="_messages"
+    ></div>
 
     <script src="synchronise.js"></script>
     <script src="view.js"></script>
@@ -35,5 +36,6 @@
     <!-- <script src="popup.js"></script> -->
 
     <script src="paste.js"></script>
+  <div>
   </body>
 </html>
