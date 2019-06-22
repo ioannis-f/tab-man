@@ -25,28 +25,26 @@ document.addEventListener(
   false
 );
 
-document.addEventListener(
-  "dragend",
-  function(event) {
-    // ***
-    log("dragend: " + event.target.id);
-    // log(event);
-    // reset the transparency
-    event.target.style.opacity = "";
-  },
-  false
-);
-
 // *** events fired on the drop targets
 document.addEventListener(
   "dragover",
   function(event) {
     event.preventDefault();
+
     if (event.target.id !== "" && true){
-      dragEnd = event.target
+      dragEnd = event.target;
       // log(event);
-      log("dragover: " + event.target.id);
+      log("dragover: " + dragEnd);
     }
+  },
+  false
+);
+
+document.addEventListener(
+  "dragend",
+  function(event) {
+    log("dragend: " + event.target.id);
+    event.target.style.opacity = "";      // reset the transparency
   },
   false
 );

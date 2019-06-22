@@ -11,13 +11,11 @@ browser.tabs.onRemoved.addListener(tabsSync);
 browser.windows.onCreated.addListener(tabsSync);
 browser.windows.onRemoved.addListener(tabsSync);
 
-
-log("Background Loop ended");
-
-// ### NEW ###############################
-// tm should be be declared with var not let
+// tm should be declared with var not let
 var tm = {};  // { "list":[] , "lastchange":new Date() , "_addarea":"" } ;
 tabsSync();
+
+log("Background Loop ended");
 
 
 // ######### 
@@ -35,46 +33,6 @@ tabsSync();
 
 //});
 
-/*
-function tabsSync(){
-  log("\n# tabsSync: start");
-  
-  loadFromStorage(function(){
-    log("AAAAAAAAAAAAAAAa");
-    log("Loaded: ");
-    log(tm);
-    browser.tabs.query({}, function(tabs){
-      log(tabs);
-      tabsSyncLoop(tabs);
-      saveToStorage();
-    });
-  });
-  return new Promise(function(resolve, reject) {
-    resolve("finished");
-  });
-}
-function loadFromStorage(){
-  log("# load: Start");
-  browser.storage.local.get("tabman", function(data){
-    // if there are stored data, load
-    if (data["tabman"]) {
-      tm = data["tabman"];
-      log("# load: storage loaded");
-    } else {
-      let tmp = { "list":[] , "lastchange":new Date() , "_addarea":"" } ;
-      browser.storage.local.set({ "tabman": tmp }, function(){
-        tm = tmp;
-        log("# load: storage initialized");
-      })
-    };
-    log("# load: Exiting");
-    return new Promise(function(resolve, reject) {
-      resolve("loaded");
-    });
-  
-  });
-}
-*/
 
 
 function tabsSync(){
