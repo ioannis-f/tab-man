@@ -1,6 +1,6 @@
 // ### DRAG N DROP
-var dragStart;
-var dragEnd;
+let dragStart;
+let dragEnd;
 
 /*
 // events fired on the draggable target 
@@ -31,7 +31,7 @@ document.addEventListener(
   function(event) {
     event.preventDefault();
 
-    if (event.target.id !== "" && true){
+    if (event.target.id !== "" && event.target.id.endsWith('_item')){
       dragEnd = event.target;
       // log(event);
       log("dragover: " + dragEnd);
@@ -85,9 +85,9 @@ document.addEventListener(
     // prevent default action (open as link for some elements)
     log(event);
     
-  if( ! dragEnd.id.endsWith('_item')){
-    return;
-  }
+  // if( ! dragEnd.id.endsWith('_item')){
+  //   return;
+  // }
 
     swapArrayItems(dragStart.id, dragEnd.id);
 

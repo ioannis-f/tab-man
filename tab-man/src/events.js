@@ -76,7 +76,7 @@ function setEventListeners() {
         break;
 
       case "clipcopy":
-        saveToClipboard(joinUrls(ii, "text", 0));
+        saveToClipboard(tm.list[ii].name + "\n" + joinUrls(ii, "text", 0));
         msg("Copied to clipboard");
         break;
 

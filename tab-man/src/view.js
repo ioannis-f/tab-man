@@ -20,7 +20,7 @@ function createView_list(scrollToCurrent) {
     ' \
       <div class="browser-style boxLeft" id="IDX_item" draggable="true"  ACTIVEWINDOW > \
         <input type="checkbox" id="IDX_selecttoggle" value="checked" CHECKEDVALUE> \
-        <input type="text" id="IDX_name" class="nameInput" value="NAME" placeholder="Enter name Here!!"> \
+        <input type="text" id="IDX" class="nameInput" value="NAME" placeholder="Enter name Here!!"> \
         <button class="browser-style" id="IDX_collapse">▼</button> \
         <button class="browser-style" id="IDX_Show">Show</button> \
         <button class="browser-style" id="IDX_clipcopy">Copy</button> \
