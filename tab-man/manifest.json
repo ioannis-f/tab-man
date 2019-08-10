@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
   "name": "Tab-man",
-  "version": "1.2.0",
+  "version": "1.0.1",
   "description": "Tab manager ",
-  "homepage_url": "",
+  "homepage_url": "https://github.com/johnfasou/tab-man",
   "permissions": [
     "activeTab",
     "clipboardRead",

@@ -107,7 +107,7 @@ function createView_list(scrollToCurrent) {
   }
   //log("Finished creating view");
   //output = '<div ondragover="allowDrop" ondrop="drop(event)" > ' + output +'</div>' ;
-  listText.innerHTML = output;
+  listText.textContent = output;  // innerHTML
   setEventListeners();
 
   // # Jump to current's window line using id
