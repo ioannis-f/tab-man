@@ -14,7 +14,7 @@ setEventListeners();
 
 function grabUrlsFromString(str) {
   // let res = grabUrlsFromString(str);
-  /*
+  /*  Working Examples:
   str = " \
   regexbuddy.com \
   www.regexbuddy.com \

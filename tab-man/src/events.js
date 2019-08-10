@@ -19,7 +19,7 @@ function setEventListeners() {
         tm.list[ii].checked = document.getElementById(
           id + "_selecttoggle"
         ).checked;
-        b.saveToStorage(); // Save to storage
+        b.saveToStorage();
         break;
 
       case "selecttoggle_all":
@@ -28,19 +28,19 @@ function setEventListeners() {
         } else {
           bulkUnSelect();
         }
-        b.saveToStorage(); // Save to storage
+        b.saveToStorage();
         createview();
         break;
 
       case "bulkselect":
         bulkSelect();
-        b.saveToStorage(); // Save to storage
+        b.saveToStorage();
         createview();
         break;
 
       case "bulkunselect":
         bulkUnSelect();
-        b.saveToStorage(); // Save to storage
+        b.saveToStorage();
         createview();
         break;
 
@@ -60,7 +60,7 @@ function setEventListeners() {
       case "remove":
         msg("Deleted");
         delete tm.list[ii];
-        b.saveToStorage(); // Save to storage
+        b.saveToStorage();
         createview();
         break;
 
@@ -71,7 +71,7 @@ function setEventListeners() {
             msg("Removed");
           }
         }
-        b.saveToStorage(); // Save to storage
+        b.saveToStorage();
         createview();
         break;
 
@@ -93,7 +93,7 @@ function setEventListeners() {
         saveToClipboard(output);
         msg("bulk clip copy");
         bulkUnSelect();
-        b.saveToStorage(); // Save to storage
+        b.saveToStorage();
         break;
 
       case "inpage":
@@ -102,29 +102,31 @@ function setEventListeners() {
         msg("List opened in new Tab");
         break;
 
-      /*
-        case "pasteareashow":
-        tmp = document.getElementById("_pastearea");
-        log(tmp);
-        if(tmp == null){
-          log("show paste area");
-          createView_PasteArea();
-        }
-        else{
-          log("show list");
-          createView_list();
-        }
-        break;
-*/
-      case "pastedone":
-        log("checking pastearea");
+      // Paste into a new window
+      case "pasteNew":
+        log("Open in a new window: checking pastearea");
 
         tmp = document.getElementById("_pastearea_txt");
-        log("text: " + tmp.value);
-        let res = grabUrlsFromString(tmp.value);
+        res = grabUrlsFromString(tmp.value);
+        log("Found: " + res.length + " url");
         if(res){
-          tmp.innerText = res.join("\n");
+          tmp.value = res.join("\n");
           openNewWindow(res);
+        }
+        break;
+
+      // Paste into current window
+      case "pasteCurrent":
+        log("Open in current window: checking pastearea");
+
+        tmp = document.getElementById("_pastearea_txt");
+        res = grabUrlsFromString(tmp.value);
+        log("Found: " + res.length + " url");
+        if(res){
+          tmp.value = res.join("\n");
+          res.forEach(item => {
+              openNewTabs(item);
+            });
         }
         break;
 
@@ -156,13 +158,13 @@ function setEventListeners() {
 
       case "moveup":
         moveItemUp(id);
-        b.saveToStorage(); // Save to storage
+        b.saveToStorage();
         createview();
         break;
 
       case "movedown":
         moveItemDown(id);
-        b.saveToStorage(); // Save to storage
+        b.saveToStorage();
         createview();
         break;
 
@@ -174,7 +176,7 @@ function setEventListeners() {
             moveItemUp(i);
           }
         }
-        b.saveToStorage(); // Save to storage
+        b.saveToStorage();
         createview();
         break;
 
@@ -188,7 +190,7 @@ function setEventListeners() {
             moveItemDown(i);
           }
         }
-        b.saveToStorage(); // Save to storage
+        b.saveToStorage();
         createview();
         break;
 
@@ -294,7 +296,7 @@ function nameChange(event) {
       let str = event.target.innerText;
       //log(str);
       tm["_addarea"] = str;
-      b.saveToStorage(); // Save to storage
+      b.saveToStorage();
       //let res = grabUrlsFromString(str);
       //log(res);
       break;
@@ -302,7 +304,7 @@ function nameChange(event) {
     default:
       tm.list[ii].name = event.target.value;
       msg("Window title changed");
-      b.saveToStorage(); // Save to storage
+      b.saveToStorage();
       break;
   }
 }
@@ -361,6 +363,6 @@ function swapArrayItems(srcElementId, destElementId) {
   }
   tm.list.splice(i2, 0, tmp); // Insert to destination position
   //log(tm);
-  b.saveToStorage(); // Save to storage
+  b.saveToStorage();
   createview();
 }
