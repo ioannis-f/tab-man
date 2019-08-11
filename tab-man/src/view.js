@@ -29,7 +29,7 @@ function createView_list(scrollToCurrent) {
             <button class="browser-style" id="IDX_remove"  style="visibility:REMOVE_VISIBLE">x</button> \
         </div> \
       </div> \
-      <div id="IDX_Text"  style="display:none">LIST</div> \
+      <div id="IDX_Text"  style="display:none; font-size:75%">LIST</div> \
     ';
   // <button class="browser-style" id="IDX_moveup">↑</button> \
   // <button class="browser-style" id="IDX_movedown">↓</button> \
@@ -107,7 +107,9 @@ function createView_list(scrollToCurrent) {
   }
   //log("Finished creating view");
   //output = '<div ondragover="allowDrop" ondrop="drop(event)" > ' + output +'</div>' ;
-  listText.textContent = output;  // innerHTML
+
+  // The content used to set the following innerHTML is not user defined thus is not vulnerable.
+  listText.innerHTML = output;  
   setEventListeners();
 
   // # Jump to current's window line using id
